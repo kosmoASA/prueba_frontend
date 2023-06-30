@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TUser } from 'src/app/interfaces/user';
+import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 
 
 const listUsers: TUser[] = [
@@ -53,7 +55,7 @@ export class UserListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource(listUsers)
   }
 
@@ -72,6 +74,16 @@ export class UserListComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  addEditUser() {
+    const dialogRef = this.dialog.open(AddEditUserComponent,{
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }
 
