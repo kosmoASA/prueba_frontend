@@ -73,19 +73,23 @@ export class UserListComponent {
     }
   }
 
-  addEditUser() {
+  addEditUser(id?: number) {
+ 
     const dialogRef = this.dialog.open(AddEditUserComponent,{
-      width: '600px'
+      width: '600px',
+      data: { id: id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if(result){
+        this.getUser();
+      }
     });
   }
 
   getUser() {
     this._userService.getUserList().subscribe(data => {
-      console.log( data );
+    
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

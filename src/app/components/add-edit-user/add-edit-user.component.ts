@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 
@@ -16,11 +16,14 @@ export class AddEditUserComponent {
   cargo: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
   form: FormGroup;
   maxDate: Date;
+  operacionTitulo: string = 'Agregar ';
+  id: number | undefined;
 
 
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
               private fb: FormBuilder,
-              private _userService: SettingsService) 
+              private _userService: SettingsService,
+              @Inject(MAT_DIALOG_DATA) public data: TUser) 
   {
 
     this.form = this.fb.group({
@@ -34,13 +37,19 @@ export class AddEditUserComponent {
     });
 
     this.maxDate = new Date();
+
+    this.id = data.id;
   }
 
 
   //* Metodos
 
+  ngOnInit() {
+    this.esEditar(this.id);
+  }
+
   cancelarBoton() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   submitAddEditPersona() {
@@ -59,9 +68,15 @@ export class AddEditUserComponent {
     }
     
     this._userService.newUser(usuario).subscribe(() => {
-      console.log( 'persona agregada con éxito' );
+      
+      this.dialogRef.close(true);
       
     })
-    
+  }
+
+  esEditar(id: number | undefined) {
+    if(id !== undefined){
+      this.operacionTitulo = 'Editar ';
+    }
   }
 }
