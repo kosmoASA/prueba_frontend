@@ -5,29 +5,19 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
-
+import { SettingsService } from 'src/app/services/app.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const listUsers: TUser[] = [
   {
-    nombre: "Steven",
-    apellido: "Angel",
+    nombre: "dadasda",
+    apellido: "dadasda",
     fechaNacimiento: new Date(),
-    email: "steven@gmail.com",
-    cargo: "Presidente",
-    password: "admin123",
-  },
-  {
-    nombre: "Mayis",
-    apellido: "Sierra",
-    fechaNacimiento: new Date(),
-    email: "mayis@gmail.com",
-    cargo: "gerente",
-    password: "admin123",
+    email: "dadasda",
+    cargo: "dadasda",
+    password: "dadasda"
   }
 ];
-
-
-
 
 @Component({
   selector: 'app-user-list',
@@ -55,10 +45,17 @@ export class UserListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(listUsers)
+  constructor(public dialog: MatDialog, 
+              private _userService: SettingsService,
+              private _snackBar: MatSnackBar) 
+  {
+    this.dataSource = new MatTableDataSource(listUsers);
   }
 
+
+  ngOnInit(): void {
+    this.getUser();
+  }
 
   //* Metodos
 
@@ -85,5 +82,27 @@ export class UserListComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  getUser() {
+    this._userService.getUserList().subscribe(data => {
+      console.log( data );
+      this.dataSource.data = data;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+  }
+
+  deleteUser(id:number) {
+    this._userService.deleteUser(id).subscribe(()=>{});
+    this.getUser();
+    this.mensajeExito();
+  }
+
+  mensajeExito() {
+    this._snackBar.open('La persona fue eliminada con éxito', '', {
+      duration: 2000
+    })
+  }
 }
+
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TUser } from 'src/app/interfaces/user';
+import { SettingsService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-add-edit-user',
@@ -18,7 +19,8 @@ export class AddEditUserComponent {
 
 
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
-              private fb: FormBuilder) 
+              private fb: FormBuilder,
+              private _userService: SettingsService) 
   {
 
     this.form = this.fb.group({
@@ -56,7 +58,10 @@ export class AddEditUserComponent {
       fechaNacimiento: this.form.value.fechaNacimiento,
     }
     
-    console.log( this.form );
+    this._userService.newUser(usuario).subscribe(() => {
+      console.log( 'persona agregada con éxito' );
+      
+    })
     
   }
 }
