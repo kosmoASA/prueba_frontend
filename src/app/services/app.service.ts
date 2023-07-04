@@ -28,12 +28,12 @@ export class SettingsService {
     return this.http.get<any>(`${this.baseUrl}/getUserList`);
   }
 
-  newUser(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/newUser`, { data: data });
+  newUser(data: TUser): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/newUser`, data);
   }
 
-  updateUser(data: any): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/updateUser`, { data: data });
+  updateUser(data: TUser): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateUser`, data );
   }
 
   deleteUser(data: any): Observable<any> {

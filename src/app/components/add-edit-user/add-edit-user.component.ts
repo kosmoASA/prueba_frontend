@@ -16,7 +16,6 @@ export class AddEditUserComponent {
   cargo: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
   form: FormGroup;
   maxDate: Date;
-  operacionTitulo: string = 'Agregar ';
   id: number | undefined;
 
 
@@ -39,6 +38,7 @@ export class AddEditUserComponent {
     this.maxDate = new Date();
 
   }
+
 
 
   //* Metodos
@@ -81,14 +81,17 @@ export class AddEditUserComponent {
       EMAIL: this.form.value.EMAIL,
       CARGO: this.form.value.CARGO,
       PASSWORD: this.form.value.PASSWORD,
-      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
+      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO.toISOString().slice(0,10),
     }
+
     
+   
     this._userService.newUser(usuario).subscribe(() => {
-      
-      this.dialogRef.close();
+      console.log( usuario );
       
     })
+
+    this.dialogRef.close();
   }
 
   
