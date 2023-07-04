@@ -7,7 +7,18 @@ import { TUser } from '../interfaces/user';
   providedIn: 'root'
 })
 export class SettingsService {
-  baseUrl = 'http://localhost:4200';
+  baseUrl = 'http://kosmetikon.myqnapcloud.com:8769';
+
+  listUser:TUser[] = 
+    [{ id: 1,
+      nombre : 'Steven',
+      apellido : 'Angel',
+      fechaNacimiento : new Date(),
+      email: 'steven@gmail.com',
+      cargo: 'front',
+      password: 'admin1234',
+    }]
+  ; 
 // pedir al Equipo de backend la URL de la nube
 
   constructor(

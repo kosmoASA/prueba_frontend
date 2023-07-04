@@ -7,3 +7,9 @@ export interface TUser {
     cargo: string;
     password: string;
 }
+
+
+export interface Data {
+    user: TUser | null;
+    event: string;
+}

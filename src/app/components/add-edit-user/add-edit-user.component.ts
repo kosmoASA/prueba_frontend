@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TUser } from 'src/app/interfaces/user';
+import { Data, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class AddEditUserComponent {
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
               private fb: FormBuilder,
               private _userService: SettingsService,
-              @Inject(MAT_DIALOG_DATA) public data: TUser) 
+              @Inject(MAT_DIALOG_DATA) public data: any) 
   {
 
     this.form = this.fb.group({
@@ -45,7 +45,24 @@ export class AddEditUserComponent {
   //* Metodos
 
   ngOnInit() {
-    this.esEditar(this.id);
+
+    if ( this.data.event === 'new') {
+
+    }
+
+    if ( this.data.event === 'update' && this.data.user !== null) {
+      
+      this.form.reset({
+        nombre : this.data.user.nombre,
+        apellido : this.data.user.apellido,
+        fechaNacimiento : this.data.user.fechaNacimiento,
+        email : this.data.user.email,
+        cargo : this.data.user.cargo,
+        password : this.data.user.password,
+
+      })
+    }
+
   }
 
   cancelarBoton() {
@@ -74,9 +91,5 @@ export class AddEditUserComponent {
     })
   }
 
-  esEditar(id: number | undefined) {
-    if(id !== undefined){
-      this.operacionTitulo = 'Editar ';
-    }
-  }
+  
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { TUser } from 'src/app/interfaces/user';
+import { Data, TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { SettingsService } from 'src/app/services/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -73,11 +73,15 @@ export class UserListComponent {
     }
   }
 
-  addEditUser(id?: number) {
- 
+  onUser(user: TUser | null, event: string) {
+        
+
     const dialogRef = this.dialog.open(AddEditUserComponent,{
       width: '600px',
-      data: { id: id }
+      data: { 
+        user: user,
+        event: event
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -87,9 +91,13 @@ export class UserListComponent {
     });
   }
 
+  get listUser() {
+    return this._userService.listUser;
+  }
+
   getUser() {
     this._userService.getUserList().subscribe(data => {
-    
+      
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
