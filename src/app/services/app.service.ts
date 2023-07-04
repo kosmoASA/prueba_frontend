@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TUser } from '../interfaces/user';
+import { Data, TUser } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +9,23 @@ import { TUser } from '../interfaces/user';
 export class SettingsService {
   baseUrl = 'http://kosmetikon.myqnapcloud.com:8769';
 
-  listUser:TUser[] = 
-    [{ id: 1,
-      nombre : 'Steven',
-      apellido : 'Angel',
-      fechaNacimiento : new Date(),
-      email: 'steven@gmail.com',
-      cargo: 'front',
-      password: 'admin1234',
-    }]
-  ; 
-// pedir al Equipo de backend la URL de la nube
+//   listUser:TUser[] = 
+//     [{ id: 1,
+//       nombre : 'Steven',
+//       apellido : 'Angel',
+//       fechaNacimiento : new Date(),
+//       email: 'steven@gmail.com',
+//       cargo: 'Front end developer',
+//       password: 'admin1234',
+//     }]
+// ; 
 
   constructor(
     private http: HttpClient,
   ) { }
 
   getUserList(): Observable<any> {
-    return this.http.get<any[]>(`${this.baseUrl}/getUserList`);
+    return this.http.get<any>(`${this.baseUrl}/getUserList`);
   }
 
   newUser(data: any): Observable<any> {
@@ -34,7 +33,7 @@ export class SettingsService {
   }
 
   updateUser(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/updateUser`, { data: data });
+    return this.http.patch<any>(`${this.baseUrl}/updateUser`, { data: data });
   }
 
   deleteUser(data: any): Observable<any> {

@@ -23,22 +23,21 @@ export class AddEditUserComponent {
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
               private fb: FormBuilder,
               private _userService: SettingsService,
-              @Inject(MAT_DIALOG_DATA) public data: any) 
+              @Inject(MAT_DIALOG_DATA) public data: Data) 
   {
 
     this.form = this.fb.group({
-      nombre: ['', [ Validators.required]],
-      apellido: ['', [ Validators.required ]],
-      email: ['', [ Validators.required, Validators.email ]],
-      cargo: ['', [ Validators.required]],
-      password: ['', [ Validators.required, Validators.minLength(8) ]],   
-      fechaNacimiento: ['', [ Validators.required]],
+      NOMBRE: ['', [ Validators.required]],
+      APELLIDO: ['', [ Validators.required ]],
+      EMAIL: ['', [ Validators.required, Validators.email ]],
+      CARGO: ['', [ Validators.required]],
+      PASSWORD: ['', [ Validators.required, Validators.minLength(8) ]],   
+      FECHA_NACIMIENTO: ['', [ Validators.required]],
       
     });
 
     this.maxDate = new Date();
 
-    this.id = data.id;
   }
 
 
@@ -51,14 +50,15 @@ export class AddEditUserComponent {
     }
 
     if ( this.data.event === 'update' && this.data.user !== null) {
+      console.log( this.data );
       
       this.form.reset({
-        nombre : this.data.user.nombre,
-        apellido : this.data.user.apellido,
-        fechaNacimiento : this.data.user.fechaNacimiento,
-        email : this.data.user.email,
-        cargo : this.data.user.cargo,
-        password : this.data.user.password,
+        NOMBRE : this.data.user.NOMBRE,
+        APELLIDO : this.data.user.APELLIDO,
+        FECHA_NACIMIENTO : this.data.user.FECHA_NACIMIENTO,
+        EMAIL : this.data.user.EMAIL,
+        CARGO : this.data.user.CARGO,
+        PASSWORD : this.data.user.PASSWORD,
 
       })
     }
@@ -66,7 +66,7 @@ export class AddEditUserComponent {
   }
 
   cancelarBoton() {
-    this.dialogRef.close(false);
+    this.dialogRef.close();
   }
 
   submitAddEditPersona() {
@@ -76,17 +76,17 @@ export class AddEditUserComponent {
     }
 
     const usuario:TUser = {
-      nombre: this.form.value.nombre,
-      apellido: this.form.value.apellido,
-      email: this.form.value.email,
-      cargo: this.form.value.cargo,
-      password: this.form.value.password,
-      fechaNacimiento: this.form.value.fechaNacimiento,
+      NOMBRE: this.form.value.NOMBRE,
+      APELLIDO: this.form.value.APELLIDO,
+      EMAIL: this.form.value.EMAIL,
+      CARGO: this.form.value.CARGO,
+      PASSWORD: this.form.value.PASSWORD,
+      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
     
     this._userService.newUser(usuario).subscribe(() => {
       
-      this.dialogRef.close(true);
+      this.dialogRef.close();
       
     })
   }

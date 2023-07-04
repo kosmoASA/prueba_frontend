@@ -8,16 +8,6 @@ import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { SettingsService } from 'src/app/services/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-const listUsers: TUser[] = [
-  {
-    nombre: "dadasda",
-    apellido: "dadasda",
-    fechaNacimiento: new Date(),
-    email: "dadasda",
-    cargo: "dadasda",
-    password: "dadasda"
-  }
-];
 
 @Component({
   selector: 'app-user-list',
@@ -30,17 +20,17 @@ export class UserListComponent {
   //* Variables
 
   displayedColumns: string[] = [
-    'nombre',
-    'apellido',
-    'fechaNacimiento',
-    'email',
-    'cargo',
-    'password',
+    'NOMBRE',
+    'APELLIDO',
+    'FECHA_NACIMIENTO',
+    'EMAIL',
+    'CARGO',
+    'PASSWORD',
     'acciones'
   ];
  
-  dataSource: MatTableDataSource<TUser>;
-
+  dataSource!: MatTableDataSource<TUser>;
+ 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -49,12 +39,14 @@ export class UserListComponent {
               private _userService: SettingsService,
               private _snackBar: MatSnackBar) 
   {
-    this.dataSource = new MatTableDataSource(listUsers);
+
+    
   }
 
 
   ngOnInit(): void {
     this.getUser();
+    
   }
 
   //* Metodos
@@ -63,14 +55,25 @@ export class UserListComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
+    
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  getUser() {
+    this._userService.getUserList().subscribe(resp => {
+      console.log( resp.data );
+      
+      this.dataSource = new MatTableDataSource(resp.data);
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
   }
 
   onUser(user: TUser | null, event: string) {
@@ -91,21 +94,13 @@ export class UserListComponent {
     });
   }
 
-  get listUser() {
-    return this._userService.listUser;
-  }
+  // get listUser() {
+  //   return this._userService.listUser;
+  // }
 
-  getUser() {
-    this._userService.getUserList().subscribe(data => {
-      
-      this.dataSource.data = data;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-  }
 
-  deleteUser(id:number) {
-    this._userService.deleteUser(id).subscribe(()=>{});
+  deleteUser(email: string) {
+    this._userService.deleteUser(email).subscribe(()=>{});
     this.getUser();
     this.mensajeExito();
   }
