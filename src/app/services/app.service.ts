@@ -29,15 +29,15 @@ export class SettingsService {
   }
 
   newUser(data: TUser): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/newUser`, data);
+    return this.http.post<any>(`${this.baseUrl}/newUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
   updateUser(data: TUser): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/updateUser`, data );
+    return this.http.patch<any>(`${this.baseUrl}/updateUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
   deleteUser(data: any): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/deleteUser`);
+    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, {body: data});
   }
 
 

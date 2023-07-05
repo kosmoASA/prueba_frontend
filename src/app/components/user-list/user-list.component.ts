@@ -67,8 +67,6 @@ export class UserListComponent {
 
   getUser() {
     this._userService.getUserList().subscribe(resp => {
-      console.log( resp.data );
-      
       this.dataSource = new MatTableDataSource(resp.data);
 
       this.dataSource.paginator = this.paginator;

@@ -16,8 +16,7 @@ export class AddEditUserComponent {
   cargo: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
   form: FormGroup;
   maxDate: Date;
-  id: number | undefined;
-
+  
 
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
               private fb: FormBuilder,
@@ -37,20 +36,7 @@ export class AddEditUserComponent {
 
     this.maxDate = new Date();
 
-  }
-
-
-
-  //* Metodos
-
-  ngOnInit() {
-
-    if ( this.data.event === 'new') {
-
-    }
-
     if ( this.data.event === 'update' && this.data.user !== null) {
-      console.log( this.data );
       
       this.form.reset({
         NOMBRE : this.data.user.NOMBRE,
@@ -61,8 +47,21 @@ export class AddEditUserComponent {
         PASSWORD : this.data.user.PASSWORD,
 
       })
-    }
 
+      
+    }
+  }
+
+
+
+  //* Metodos
+
+  ngOnInit() {
+
+    if ( this.data.event === 'new') {
+      
+    }
+    
   }
 
   cancelarBoton() {
@@ -81,18 +80,38 @@ export class AddEditUserComponent {
       EMAIL: this.form.value.EMAIL,
       CARGO: this.form.value.CARGO,
       PASSWORD: this.form.value.PASSWORD,
-      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO.toISOString().slice(0,10),
+      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
-    
+    console.log( usuario );
+
+    if ( this.data.event === 'new') {
+       this._userService.newUser(usuario).subscribe(() => {
+            
+        this.dialogRef.close();
+                
+      })
+    } else {
+        this._userService.updateUser(usuario).subscribe(
+        {
+          next: (resp: any) => {
+            window.location.href = './index.html'
+            
+          }, error: (error: any) => {
+            console.log( error.error);
+            
+          }
+        }
+      )
+    }
    
-    this._userService.newUser(usuario).subscribe(() => {
-      console.log( usuario );
-      
-    })
 
-    this.dialogRef.close();
+    
+    
+    
+    
   }
-
-  
+ 
 }
+
+
