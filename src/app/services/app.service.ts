@@ -36,8 +36,8 @@ export class SettingsService {
     return this.http.patch<any>(`${this.baseUrl}/updateUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
-  deleteUser(data: any): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, {body: data});
+  deleteUser(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, { headers: {"Content-Type": "application/json"} } );
   }
 
 

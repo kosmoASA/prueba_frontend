@@ -7,6 +7,7 @@ import { Data, TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { SettingsService } from 'src/app/services/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class UserListComponent {
 
   constructor(public dialog: MatDialog, 
               private _userService: SettingsService,
-              private _snackBar: MatSnackBar) 
+              ) 
   {
 
     
@@ -51,11 +52,7 @@ export class UserListComponent {
 
   //* Metodos
 
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  //   this.dataSource.sort = this.sort;
-  // }
-  
+   
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -92,22 +89,26 @@ export class UserListComponent {
     });
   }
 
-  // get listUser() {
-  //   return this._userService.listUser;
-  // }
-
-
-  deleteUser(email: string) {
-    this._userService.deleteUser(email).subscribe(()=>{});
-    this.getUser();
-    this.mensajeExito();
-  }
-
-  mensajeExito() {
-    this._snackBar.open('La persona fue eliminada con éxito', '', {
-      duration: 2000
+  
+  deleteUser(user:TUser | null, event: string) {
+    
+    const dialogDelete = this.dialog.open(ModalDeleteComponent, {
+      width: '250px',
+      data: {
+        user: user,
+        event: event,
+      }
     })
+
+    dialogDelete.afterClosed().subscribe(result => {
+      
+      this.getUser();
+      
+    });
+
   }
+
+  
 }
 
 

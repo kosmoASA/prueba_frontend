@@ -36,6 +36,7 @@ export class AddEditUserComponent {
 
     this.maxDate = new Date();
 
+
     if ( this.data.event === 'update' && this.data.user !== null) {
       
       this.form.reset({
@@ -56,13 +57,7 @@ export class AddEditUserComponent {
 
   //* Metodos
 
-  ngOnInit() {
-
-    if ( this.data.event === 'new') {
-      
-    }
-    
-  }
+  
 
   cancelarBoton() {
     this.dialogRef.close();
@@ -83,7 +78,6 @@ export class AddEditUserComponent {
       FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
-    console.log( usuario );
 
     if ( this.data.event === 'new') {
        this._userService.newUser(usuario).subscribe(() => {
@@ -104,12 +98,7 @@ export class AddEditUserComponent {
         }
       )
     }
-   
 
-    
-    
-    
-    
   }
  
 }

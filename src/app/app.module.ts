@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http' 
 import { SettingsService } from './services/app.service';
+import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { SettingsService } from './services/app.service';
     AppComponent,
     UserListComponent,
     AddEditUserComponent,
+    ModalDeleteComponent,
     
   ],
   imports: [
