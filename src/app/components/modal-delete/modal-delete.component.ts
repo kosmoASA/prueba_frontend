@@ -21,13 +21,16 @@ export class ModalDeleteComponent {
     
   }
 
-  @ViewChild('txtTagInput') public tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('passwordInput') public passwordInput!: ElementRef<HTMLInputElement>;
 
+  ngOnInit() {
+    this.editPassword();
+  }
 
   editPassword() {
     this.user = {
       EMAIL: this.data.EMAIL,
-      PASSWORD: this.tagInput.nativeElement.value,
+      PASSWORD: this.passwordInput.nativeElement.value,
     }
   }
 
