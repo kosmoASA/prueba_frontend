@@ -98,7 +98,7 @@ export class UserListComponent {
     })
 
     dialogDelete.afterClosed().subscribe(result => {
-      
+    
       this.getUser();
       
     });

@@ -12,5 +12,5 @@
 </mat-form-field>
 <div mat-dialog-actions>
   <button mat-button (click)="noDeleteBtn()" >No</button>
-  <button mat-button (click)="deleteBtn()" mat-dialog-close cdkFocusInitial>Borrar</button>
+  <button mat-button (eventDelete)="deleteBtn()" mat-dialog-close cdkFocusInitial>Borrar</button>
 </div>

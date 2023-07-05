@@ -31,20 +31,20 @@ export class ModalDeleteComponent {
     }
   }
 
-  deleteBtn() {
+  deleteBtn(): void {
     
     this._userService.deleteUser(this.user.EMAIL, this.user.PASSWORD).subscribe(
       {
         next: (resp: any) => {
           console.log( resp );
           
-          window.location.href = './index.html'
           this.dialogRef.close()
           this.mensajeExito();
+          window.location.href = './index.html'
           
         }, error: (error: any) => {
           console.log( error );
-          
+          throw new Error('Error al eliminar el usuario');
         }
       }
     )
