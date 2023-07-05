@@ -90,14 +90,11 @@ export class UserListComponent {
   }
 
   
-  deleteUser(user:TUser | null, event: string) {
+  deleteUser() {
     
     const dialogDelete = this.dialog.open(ModalDeleteComponent, {
-      width: '250px',
-      data: {
-        user: user,
-        event: event,
-      }
+      width: '250px'
+      
     })
 
     dialogDelete.afterClosed().subscribe(result => {

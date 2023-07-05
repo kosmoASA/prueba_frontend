@@ -2,6 +2,14 @@
 <div mat-dialog-content>
   Deseas eliminar al usuario?
 </div>
+<mat-form-field appearance="fill">
+  <mat-label>Password</mat-label>
+  <input 
+      matInput 
+      placeholder="Password" 
+      autocomplete="off"      
+  >
+</mat-form-field>
 <div mat-dialog-actions>
   <button mat-button (click)="noDeleteBtn()" >No</button>
   <button mat-button (click)="deleteBtn()" mat-dialog-close cdkFocusInitial>Borrar</button>
