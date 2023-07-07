@@ -28,7 +28,7 @@ export class SettingsService {
     return this.http.get<any>(`${this.baseUrl}/getUserList`);
   }
 
-  newUser(data: TUser): Observable<any> {
+  newUser(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/newUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
@@ -38,24 +38,21 @@ export class SettingsService {
 
   deleteUser(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
     
-    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, { body: data});
+    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, { body: data });
   }
 
+  login(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/login`, data,  { headers: {"Content-Type": "application/json"} } )
+  }
 
+  logout(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/logout`);
+  }
 
-
-// NOTA 
-// se ha puesto en todos los casos this.http.post
-// se debe cambiar por GET, POST, PUT, DELETE en cada caso
-// ejemplo getUserList deberia ser: 
-//  return this.http.get<any[]>(`${this.baseUrl}/settings/saveDBDataInEnvFile`);
-// ejemplo newUser deberia ser: 
-//  return this.http.post<any>(`${this.baseUrl}/settings/saveDBDataInEnvFile`, { data: data });
-// 
-// NOTA
-// el parametro data se tendra que poner por el tipo definido.
-
-// coordinar esta información con el Equipo de backend la URL de la nube
+  
+  // register(user: {EMAIL: string, PASSWORD: string}): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/register`, user);
+  // }
 
 
 }

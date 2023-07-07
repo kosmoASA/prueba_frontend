@@ -53,7 +53,9 @@ export class ModalDeleteComponent {
 
   mensajeExito() {
     this._snackBar.open('La persona fue eliminada con éxito', '', {
-      duration: 2000
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
     })
   }
 }

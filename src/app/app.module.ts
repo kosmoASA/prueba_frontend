@@ -11,6 +11,7 @@ import { SettingsService } from './services/app.service';
 import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
 import { AppRoutingModule } from './app.routing.module';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { LoginComponent } from './components/login/login.component';
     AddEditUserComponent,
     ModalDeleteComponent,
     LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,9 @@ import { TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { GetlistService } from 'src/app/services/getlist.service';
+import { SettingsService } from 'src/app/services/app.service';
+import { timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,6 +18,7 @@ import { GetlistService } from 'src/app/services/getlist.service';
 export class UserListComponent {
 
   //* Variables
+  loading = false;
 
   displayedColumns: string[] = [
     'NOMBRE',
@@ -29,6 +33,8 @@ export class UserListComponent {
 
   constructor(public dialog: MatDialog, 
               public _getlistService: GetlistService,
+              private _userService: SettingsService,
+              private router: Router,
               ) 
   {
     
@@ -88,7 +94,25 @@ export class UserListComponent {
 
   }
 
+  logoutUser() {
+    this._userService.logout().subscribe({
+      next: (resp: any) => {
+        console.log( resp )
+        this.redirectLogin();
+      },
+      error: (err: any) => {
+        console.log( err.error )
+      }
+    })
+  }
   
+
+  redirectLogin(){
+    this.loading = true;
+    const navLogin = timer(1000);
+    navLogin.subscribe(() => this.router.navigate(['login']));
+    
+  }
 }
 
 

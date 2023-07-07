@@ -2,26 +2,22 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
 import { UserLogin } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
+export class RegisterComponent {
 
-  form: FormGroup;
-  loading = false;
-
-
+  form!: FormGroup;
 
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
               private _userService: SettingsService,
-              private router: Router)
+              private router: Router) 
   {
     this.form = this.fb.group({
       EMAIL: ['', [Validators.required, Validators.email]] ,
@@ -32,57 +28,47 @@ export class LoginComponent {
   }
 
 
-
-
-  //* Metodos
-
-  login() {
-
+  registerUser() {
     if(this.form.invalid) {
       return;
     }
 
     if(this.form.value.PASSWORD !== this.form.value.CONFIRM_PASSWORD ) {
-      this._snackBar.open('Las contraseñas no coinciden', 'Oppps!!', {
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
+      this.mensajeError();
       return;
     }
 
-    const userLogin: UserLogin = {
+    const userRegister: UserLogin = {
       EMAIL: this.form.value.EMAIL,
-      PASSWORD: this.form.value.PASSWORD
+      PASSWORD: this.form.value.PASSWORD,
     }
-   
-    this._userService.login(userLogin).subscribe({
+
+    this._userService.login(userRegister).subscribe({ //Hay que cambiar la petición por newUser
       next: (resp: any) => {
-        console.log( resp );
-        this.redirectHome();
+        console.log( 'el usuario fue registrado con éxito' );
+        this.mensajeExito();
+        this.router.navigate(['login']);
       },
       error: (err: any) => {
-        console.error( err.error )
+        console.log( err.error )
       }
     })
   }
 
 
-  errorMessage(){
-    this._snackBar.open('El Usuario o Contraseña ingresados no son validos', 'Oppps!!', {
+  mensajeExito () {
+    this._snackBar.open('El usuario ha sido registrado con éxito', '', {
       duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     })
   }
 
-
-  redirectHome(){
-    this.loading = true;
-
-    const navHome = timer(1000);
-    navHome.subscribe(() => this.router.navigate(['home']));
-    
+  mensajeError () {
+    this._snackBar.open('Las contraseñas no coinciden', 'Oppps!!', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
   }
-
 }

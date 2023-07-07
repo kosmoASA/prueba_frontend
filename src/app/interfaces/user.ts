@@ -17,5 +17,4 @@ export interface Data {
 export interface UserLogin {
     EMAIL: string;
     PASSWORD: string;
-    CONFIRM_PASSWORD: string;
 }
