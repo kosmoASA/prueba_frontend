@@ -1,0 +1,47 @@
+.body {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background: #f46b45;
+    background: -webkit-linear-gradient(to right, #eea849, #f46b45); 
+    background: linear-gradient(to right, #eea849, #f46b45);
+
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 100%;
+    margin: 0 10px;
+}
+
+.login {
+    width: 100%;
+    max-width: 330px;
+    text-align: center;
+}
+
+.ancho {
+    width: 80%;
+}
+
+.button {
+    height: 50px;
+}
+
+.spinner {
+    margin: 0 auto;
+}
+
+.error {
+    color: #d11a2a;
+    margin-top: -20px;
+    font-size: 12px;
+}

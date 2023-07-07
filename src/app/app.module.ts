@@ -9,6 +9,8 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http' 
 import { SettingsService } from './services/app.service';
 import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
+import { AppRoutingModule } from './app.routing.module';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -17,11 +19,12 @@ import { ModalDeleteComponent } from './components/modal-delete/modal-delete.com
     UserListComponent,
     AddEditUserComponent,
     ModalDeleteComponent,
-    
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     SharedModule,
     HttpClientModule
   ],

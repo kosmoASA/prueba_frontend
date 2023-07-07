@@ -1,0 +1,55 @@
+<div class="body">
+    <div class="login">
+        <!-- <mat-spinner diameter="50" class="spinner"></mat-spinner> -->
+
+        <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="login()">
+            <img src="../../../assets/img/usuario.png" width="50%">
+            <h1>Login</h1>
+            <div class="row">
+                <div class="column">
+                    <mat-form-field class="ancho">
+                        <mat-label>Usuario</mat-label>
+                        <input matInput autocomplete="off" formControlName="EMAIL" type="text">
+                    </mat-form-field>
+                    
+                    <div class="error">
+                        <span *ngIf="form.get('EMAIL')?.hasError('required') && form.get('EMAIL')?.touched">
+                            El email es un campo <strong>requerido</strong>.
+                        </span>
+                        <span *ngIf="form.get('EMAIL')?.hasError('email')">
+                            El email es <strong>inválido</strong>.
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="column">
+                    <mat-form-field class="ancho">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput autocomplete="off" formControlName="PASSWORD" type="text">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="column">
+                    <mat-form-field class="ancho">
+                    <mat-label>Confirma tu Contraseña</mat-label>
+                    <input matInput autocomplete="off" formControlName="PASSWORD_REPEAT" type="text">
+                </mat-form-field>
+                </div>
+                
+            </div>
+
+
+
+            <br>
+
+            <button type="submit" mat-raised-button color="primary" class="ancho button">Ingresar</button>
+        </form>
+
+    </div>
+</div>
