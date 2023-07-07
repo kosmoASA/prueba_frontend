@@ -14,3 +14,8 @@ export interface Data {
     event: string;
 }
 
+export interface UserLogin {
+    EMAIL: string;
+    PASSWORD: string;
+    CONFIRM_PASSWORD: string;
+}

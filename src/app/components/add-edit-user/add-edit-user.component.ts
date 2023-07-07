@@ -1,8 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Data, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
+import { GetlistService } from 'src/app/services/getlist.service';
 
 @Component({
   selector: 'app-add-edit-user',
@@ -21,6 +23,8 @@ export class AddEditUserComponent {
   constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
               private fb: FormBuilder,
               private _userService: SettingsService,
+              public _getlistService: GetlistService,
+              private router: Router,
               @Inject(MAT_DIALOG_DATA) public data: Data) 
   {
 
@@ -81,16 +85,18 @@ export class AddEditUserComponent {
 
     if ( this.data.event === 'new') {
        this._userService.newUser(usuario).subscribe(() => {
-            
-        this.dialogRef.close();
+
+         this.dialogRef.close();
+         this._getlistService.getUserListData();    
                 
       })
     } else {
         this._userService.updateUser(usuario).subscribe(
         {
           next: (resp: any) => {
-            window.location.href = './index.html'
             
+            this.dialogRef.close();
+            this._getlistService.getUserListData(); 
           }, error: (error: any) => {
             console.log( error.error);
             

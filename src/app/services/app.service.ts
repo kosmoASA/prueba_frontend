@@ -7,7 +7,7 @@ import { Data, TUser } from '../interfaces/user';
   providedIn: 'root'
 })
 export class SettingsService {
-  baseUrl = 'http://kosmetikon.myqnapcloud.com:8769';
+  baseUrl = 'http://kosmetikon.myqnapcloud.com:44444';
 
 //   listUser:TUser[] = 
 //     [{ id: 1,
@@ -36,10 +36,12 @@ export class SettingsService {
     return this.http.patch<any>(`${this.baseUrl}/updateUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
-  deleteUser(emailUser: string, passwordUser: string): Observable<any> {
-    const data = {EMAIL: emailUser, PASSWORD: passwordUser}
+  deleteUser(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
+    
     return this.http.delete<any>(`${this.baseUrl}/deleteUser`, { body: data});
   }
+
+
 
 
 // NOTA 

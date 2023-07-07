@@ -1,17 +1,21 @@
 <h1 mat-dialog-title>Eliminar Usuario</h1>
-<div mat-dialog-content>
-  Deseas eliminar al usuario?
-</div>
-<mat-form-field appearance="fill">
-  <mat-label>Password</mat-label>
-  <input 
-      matInput 
-      placeholder="Password" 
-      autocomplete="off"   
-      #passwordInput   
-  >
-</mat-form-field>
-<div mat-dialog-actions>
-  <button mat-button (click)="noDeleteBtn()" >No</button>
-  <button mat-button (eventDelete)="deleteBtn()" mat-dialog-close cdkFocusInitial>Borrar</button>
-</div>
+<form [formGroup]="form" (ngSubmit)="deleteBtn()">
+  <div mat-dialog-content>
+    Deseas eliminar al usuario?
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Password" autocomplete="off" formControlName="EMAIL">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" autocomplete="off" formControlName="PASSWORD">
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button type="button" mat-button (click)="noDeleteBtn()">No</button>
+      <button mmat-raised-button color="primary" type="submit" mat-dialog-close cdkFocusInitial>Borrar</button>
+    </div>
+  </div>
+</form>

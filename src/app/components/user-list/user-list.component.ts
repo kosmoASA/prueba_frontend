@@ -1,13 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Data, TUser } from 'src/app/interfaces/user';
+import { TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
-import { SettingsService } from 'src/app/services/app.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
+import { GetlistService } from 'src/app/services/getlist.service';
 
 
 @Component({
@@ -30,24 +26,18 @@ export class UserListComponent {
     'acciones'
   ];
  
-  dataSource!: MatTableDataSource<TUser>;
- 
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(public dialog: MatDialog, 
-              private _userService: SettingsService,
+              public _getlistService: GetlistService,
               ) 
   {
-
+    
     
   }
 
 
   ngOnInit(): void {
     this.getUser();
-    
   }
 
   //* Metodos
@@ -55,20 +45,13 @@ export class UserListComponent {
    
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this._getlistService.dataSource.filter = filterValue.trim().toLowerCase();
+  
   }
 
   getUser() {
-    this._userService.getUserList().subscribe(resp => {
-      this.dataSource = new MatTableDataSource(resp.data);
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
+    this._getlistService.getUserListData();
+    
   }
 
   onUser(user: TUser | null, event: string) {

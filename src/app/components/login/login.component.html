@@ -1,6 +1,6 @@
 <div class="body">
     <div class="login">
-        <!-- <mat-spinner diameter="50" class="spinner"></mat-spinner> -->
+        <mat-spinner *ngIf="loading" diameter="50" class="spinner"></mat-spinner>
 
         <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="login()">
             <img src="../../../assets/img/usuario.png" width="50%">
@@ -8,10 +8,10 @@
             <div class="row">
                 <div class="column">
                     <mat-form-field class="ancho">
-                        <mat-label>Usuario</mat-label>
+                        <mat-label>Email del usuario</mat-label>
                         <input matInput autocomplete="off" formControlName="EMAIL" type="text">
                     </mat-form-field>
-                    
+
                     <div class="error">
                         <span *ngIf="form.get('EMAIL')?.hasError('required') && form.get('EMAIL')?.touched">
                             El email es un campo <strong>requerido</strong>.
@@ -28,8 +28,17 @@
                 <div class="column">
                     <mat-form-field class="ancho">
                         <mat-label>Contraseña</mat-label>
-                        <input matInput autocomplete="off" formControlName="PASSWORD" type="text">
+                        <input matInput autocomplete="off" formControlName="PASSWORD" type="password">
                     </mat-form-field>
+
+                    <div class="error">
+                        <span *ngIf="form.get('PASSWORD')?.hasError('required') && form.get('PASSWORD')?.touched">
+                            La contraseña es un campo <strong>requerido</strong>.
+                        </span>
+                        <span *ngIf="form.get('PASSWORD')?.hasError('minlength')">
+                            La contraseña debe tener mínimo ocho caracteres.
+                        </span>
+                    </div>
                 </div>
 
             </div>
@@ -38,7 +47,7 @@
                 <div class="column">
                     <mat-form-field class="ancho">
                     <mat-label>Confirma tu Contraseña</mat-label>
-                    <input matInput autocomplete="off" formControlName="PASSWORD_REPEAT" type="text">
+                    <input matInput autocomplete="off" formControlName="CONFIRM_PASSWORD" type="password">
                 </mat-form-field>
                 </div>
                 

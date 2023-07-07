@@ -5,7 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent },
-  {path: 'home', loadChildren: () => import('./components/user-list/user-list.component').then(x => x.UserListComponent)},
+  {path: 'home', loadChildren: () => import('./components/user-list/user-list.module').then(x => x.UserListModule)},
   {path: '**', redirectTo: 'login', pathMatch: 'full'},
   
 ];

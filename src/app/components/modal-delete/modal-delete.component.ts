@@ -1,8 +1,10 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Data, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
+import { GetlistService } from 'src/app/services/getlist.service';
 
 @Component({
   selector: 'app-modal-delete',
@@ -11,46 +13,36 @@ import { SettingsService } from 'src/app/services/app.service';
 })
 export class ModalDeleteComponent {
 
-  public user:any;
+  form!: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<ModalDeleteComponent>,
+              private fb: FormBuilder,
               private _snackBar: MatSnackBar,
+              public _getlistService: GetlistService,
               private _userService: SettingsService,
               @Inject(MAT_DIALOG_DATA) public data: any) 
   {
-    
+    this.form = this.fb.group({
+      EMAIL: ['', [Validators.required, Validators.email]],
+      PASWWORD: ['', Validators.required],
+    })
+
+    this.form.patchValue({ EMAIL: data.email })
   }
 
-  @ViewChild('passwordInput') public passwordInput!: ElementRef<HTMLInputElement>;
-
-  ngOnInit() {
-    this.editPassword();
-  }
-
-  editPassword() {
-    this.user = {
-      EMAIL: this.data.EMAIL,
-      PASSWORD: this.passwordInput.nativeElement.value,
+  
+  deleteBtn() {
+    const userToDelete = {
+      EMAIL: this.form.value.EMAIL,
+      PASSWORD: this.form.value.PASSWORD,
     }
-  }
 
-  deleteBtn(): void {
-    
-    this._userService.deleteUser(this.user.EMAIL, this.user.PASSWORD).subscribe(
-      {
-        next: (resp: any) => {
-          console.log( resp );
-          
-          this.dialogRef.close()
-          this.mensajeExito();
-          window.location.href = './index.html'
-          
-        }, error: (error: any) => {
-          console.log( error );
-          throw new Error('Error al eliminar el usuario');
-        }
-      }
-    )
+    this._userService.deleteUser(userToDelete).subscribe((data) => {
+      console.log( data );
+      this.mensajeExito();
+      this.dialogRef.close();
+      this._getlistService.getUserListData();
+    })
 
   }
 

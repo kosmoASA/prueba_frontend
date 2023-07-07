@@ -18,7 +18,7 @@
         Agregar
     </button>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" matSort>
+    <table mat-table [dataSource]="_getlistService.dataSource" class="mat-elevation-z5" matSort>
 
       <ng-container matColumnDef="NOMBRE">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
@@ -62,6 +62,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    
   </mat-card-content>
 </mat-card>
