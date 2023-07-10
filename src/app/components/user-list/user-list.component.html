@@ -1,7 +1,6 @@
 
-  <!-- <div class="spinner_div"> -->
+
     <mat-spinner *ngIf="loading" diameter="50" class="spinner2"></mat-spinner>
-  <!-- </div> -->
 
   <div *ngIf="!loading" class="body_div">
     <mat-toolbar color="primary">
@@ -23,8 +22,8 @@
             </button>
 
             <button mat-fab extended color="accent" class="btn-back" (click)="logoutUser()">
-              <mat-icon>arrow_back</mat-icon>
-              Volver
+              <mat-icon>logout</mat-icon>
+              Cerrar Sesión
             </button>
           </div>
 

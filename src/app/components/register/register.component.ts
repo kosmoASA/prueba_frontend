@@ -43,14 +43,14 @@ export class RegisterComponent {
       PASSWORD: this.form.value.PASSWORD,
     }
 
-    this._userService.login(userRegister).subscribe({ //Hay que cambiar la petición por newUser
+    this._userService.login(userRegister).subscribe({ //Hay que cambiar la petición a la llamada al servicio que corresponda para Regsitrarse
       next: (resp: any) => {
         console.log( 'el usuario fue registrado con éxito' );
         this.mensajeExito();
         this.router.navigate(['login']);
       },
-      error: (err: any) => {
-        console.log( err.error )
+      error: ({ error }) => {
+        this.mensajeErrorRegistro(error);
       }
     })
   }
@@ -66,6 +66,14 @@ export class RegisterComponent {
 
   mensajeError () {
     this._snackBar.open('Las contraseñas no coinciden', 'Oppps!!', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
+
+  mensajeErrorRegistro ( error: any ) {
+    this._snackBar.open(`Error al registrar usuario: ${ error.message }`, 'Oppps!!', {
       duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'

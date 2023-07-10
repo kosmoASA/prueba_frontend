@@ -32,13 +32,18 @@ export class ModalDeleteComponent {
 
   
   deleteBtn() {
+
+    if(this.form.invalid) {
+      return;
+    }
+
     const userToDelete = {
       EMAIL: this.form.value.EMAIL,
       PASSWORD: this.form.value.PASSWORD,
     }
 
     this._userService.deleteUser(userToDelete).subscribe((data) => {
-      console.log( data );
+      
       this.mensajeExito();
       this.dialogRef.close();
       this._getlistService.getUserListData();

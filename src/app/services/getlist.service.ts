@@ -2,6 +2,7 @@ import { Injectable, ViewChild } from '@angular/core';
 import { SettingsService } from './app.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TUser } from '../interfaces/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable({
@@ -14,7 +15,8 @@ export class GetlistService {
  
 
 
-  constructor(private _userService: SettingsService) 
+  constructor(private _userService: SettingsService,
+              private _snackBar: MatSnackBar) 
   {
     this.usuarios = [];
   }
@@ -26,6 +28,18 @@ export class GetlistService {
       this.usuarios = resp.data;
       this.dataSource = new MatTableDataSource(this.usuarios);
 
+    })
+
+
+  }
+
+
+  //Implementar mensaje de error
+  mensajeErrorLista(error: any ) {
+    this._snackBar.open(`Error al obtener la lista de Usuarios: ${ error.message }`, '', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
     })
   }
 }

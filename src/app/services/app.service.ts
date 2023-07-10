@@ -42,7 +42,7 @@ export class SettingsService {
   }
 
   login(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data,  { headers: {"Content-Type": "application/json"} } )
+    return this.http.post<any>(`${this.baseUrl}/login`, data, { headers: {"Content-Type": "application/json"} } )
   }
 
   logout(): Observable<any> {

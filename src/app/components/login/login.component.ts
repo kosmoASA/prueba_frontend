@@ -29,6 +29,8 @@ export class LoginComponent {
       CONFIRM_PASSWORD: ['', [Validators.required, Validators.minLength(8)]],
 
     })
+
+    
   }
 
 
