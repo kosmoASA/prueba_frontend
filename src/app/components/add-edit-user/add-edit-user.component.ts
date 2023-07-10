@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Data, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
@@ -24,6 +25,7 @@ export class AddEditUserComponent {
               private fb: FormBuilder,
               private _userService: SettingsService,
               public _getlistService: GetlistService,
+              private _snackBar: MatSnackBar,
               private router: Router,
               @Inject(MAT_DIALOG_DATA) public data: Data) 
   {
@@ -97,14 +99,22 @@ export class AddEditUserComponent {
             
             this.dialogRef.close();
             this._getlistService.getUserListData(); 
-          }, error: (error: any) => {
-            console.log( error.error);
-            
+          }, error: ({error}) => {
+            this.mensajeErrorUpdate(error);
           }
         }
       )
     }
 
+  }
+
+
+  mensajeErrorUpdate(error: any ) {
+    this._snackBar.open(`Error: ${ error.message }`, 'Oppps!!!', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
   }
  
 }

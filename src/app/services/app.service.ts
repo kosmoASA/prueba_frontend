@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Data, TUser } from '../interfaces/user';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +24,14 @@ export class SettingsService {
 
   constructor(
     private http: HttpClient,
+    private jwtHelper: JwtHelperService,
   ) { }
 
   getUserList(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/getUserList`);
   }
 
-  newUser(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
+  newUser(data: TUser): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/newUser`, data, { headers: {"Content-Type": "application/json"} } );
   }
 
@@ -42,7 +45,7 @@ export class SettingsService {
   }
 
   login(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data, { headers: {"Content-Type": "application/json"} } )
+    return this.http.post<any>(`${this.baseUrl}/login`, data);
   }
 
   logout(): Observable<any> {
@@ -50,6 +53,14 @@ export class SettingsService {
   }
 
   
+  // isAuth():boolean {
+  //   const access_token = localStorage.getItem('access_token');
+  //   if(this.jwtHelper.isTokenExpired(access_token) || !localStorage.getItem('access_token')) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
   // register(user: {EMAIL: string, PASSWORD: string}): Observable<any> {
   //   return this.http.post(`${this.baseUrl}/register`, user);
   // }

@@ -42,11 +42,16 @@ export class ModalDeleteComponent {
       PASSWORD: this.form.value.PASSWORD,
     }
 
-    this._userService.deleteUser(userToDelete).subscribe((data) => {
-      
+    this._userService.deleteUser(userToDelete).subscribe({
+      next: (resp: any) => {
       this.mensajeExito();
       this.dialogRef.close();
       this._getlistService.getUserListData();
+    },
+    error: ({error}) => {
+      this.mensajeErrorDelete(error);
+    }
+  
     })
 
   }
@@ -58,6 +63,15 @@ export class ModalDeleteComponent {
 
   mensajeExito() {
     this._snackBar.open('La persona fue eliminada con éxito', '', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
+
+
+  mensajeErrorDelete(error: any ) {
+    this._snackBar.open(`Error: ${ error.message }`, 'Oppps!!!', {
       duration: 2000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'

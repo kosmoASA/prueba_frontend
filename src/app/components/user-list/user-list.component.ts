@@ -8,6 +8,7 @@ import { SettingsService } from 'src/app/services/app.service';
 import { timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -33,8 +34,8 @@ export class UserListComponent {
  
 
   constructor(public dialog: MatDialog, 
-              
               public _getlistService: GetlistService,
+              public _authService: AuthService,
               private _userService: SettingsService,
               private router: Router,
               ) 
@@ -99,7 +100,8 @@ export class UserListComponent {
   logoutUser() {
     this._userService.logout().subscribe({
       next: (resp: any) => {
-        console.log( resp )
+        console.log( resp );
+        this._authService.deleteToken();
         this.redirectLogin();
       },
       error: (err: any) => {

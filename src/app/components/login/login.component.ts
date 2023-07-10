@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { timer } from 'rxjs';
 import { UserLogin } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
               private _userService: SettingsService,
+              private _authService: AuthService,
               private router: Router)
   {
     this.form = this.fb.group({
@@ -30,7 +32,7 @@ export class LoginComponent {
 
     })
 
-    
+
   }
 
 
@@ -57,22 +59,23 @@ export class LoginComponent {
       EMAIL: this.form.value.EMAIL,
       PASSWORD: this.form.value.PASSWORD
     }
-   
+
     this._userService.login(userLogin).subscribe({
       next: (resp: any) => {
         console.log( resp );
+        this._authService.setToken(resp.token);
         this.redirectHome();
       },
-      error: (err: any) => {
-        console.error( err.error )
+      error: ({ error }) => {
+        this.mensajeErrorLogin(error)
       }
     })
   }
 
 
-  errorMessage(){
-    this._snackBar.open('El Usuario o Contraseña ingresados no son validos', 'Oppps!!', {
-      duration: 5000,
+  mensajeErrorLogin(error: any ) {
+    this._snackBar.open(`Error: ${ error.message }`, 'Oppps!!!', {
+      duration: 2000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     })
@@ -84,7 +87,8 @@ export class LoginComponent {
 
     const navHome = timer(1000);
     navHome.subscribe(() => this.router.navigate(['home']));
-    
+
   }
+
 
 }

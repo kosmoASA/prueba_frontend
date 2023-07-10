@@ -3,6 +3,7 @@ import { SettingsService } from './app.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TUser } from '../interfaces/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable({
@@ -12,13 +13,17 @@ export class GetlistService {
 
   usuarios : TUser[];
   dataSource!: MatTableDataSource<TUser>;
+
+  
  
 
 
   constructor(private _userService: SettingsService,
-              private _snackBar: MatSnackBar) 
+              private _snackBar: MatSnackBar,
+              private _cookieService: CookieService) 
   {
     this.usuarios = [];
+   
   }
 
 
@@ -27,7 +32,8 @@ export class GetlistService {
     this._userService.getUserList().subscribe(resp => {
       this.usuarios = resp.data;
       this.dataSource = new MatTableDataSource(this.usuarios);
-
+      // localStorage.setItem('access_token', resp.token);
+      this._cookieService.set('access_token', resp.token);
     })
 
 
