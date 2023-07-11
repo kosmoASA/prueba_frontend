@@ -45,25 +45,14 @@ export class SettingsService {
   }
 
   login(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data);
+    return this.http.post<any>(`${this.baseUrl}/login`, data, { headers: {'Content-Type': 'application/json', credentials: "include",} });
   }
 
   logout(): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/logout`);
   }
 
-  
-  // isAuth():boolean {
-  //   const access_token = localStorage.getItem('access_token');
-  //   if(this.jwtHelper.isTokenExpired(access_token) || !localStorage.getItem('access_token')) {
-  //     return false;
-  //   }
 
-  //   return true;
-  // }
-  // register(user: {EMAIL: string, PASSWORD: string}): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/register`, user);
-  // }
 
 
 }

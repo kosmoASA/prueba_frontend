@@ -3,18 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './guards/auth.guard';
-import { tokenGuard } from './guards/token.guard';
+import { AuthService } from './services/auth.service';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: 'login', component: LoginComponent , canActivate: [tokenGuard]},
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'home', 
     loadChildren: () => import('./components/user-list/user-list.module').then(x => x.UserListModule), 
     canActivate: [authGuard]
   },
-  { path: '**', redirectTo: 'login', pathMatch: 'full'},
+  { path: '**', redirectTo: 'home', pathMatch: 'full'},
   
 ];
 

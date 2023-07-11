@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { timer } from 'rxjs';
 import { UserLogin } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
@@ -18,7 +19,6 @@ export class LoginComponent {
   loading = false;
 
 
-
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
               private _userService: SettingsService,
@@ -32,9 +32,8 @@ export class LoginComponent {
 
     })
 
-
+    
   }
-
 
 
 
