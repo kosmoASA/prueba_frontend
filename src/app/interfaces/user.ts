@@ -4,7 +4,7 @@ export interface TUser {
     APELLIDO: string;
     FECHA_NACIMIENTO: Date;
     EMAIL: string;
-    CARGO: string;
+    ID_CARGO: number;
     PASSWORD: string;
 }
 
@@ -19,6 +19,13 @@ export interface UserLogin {
     PASSWORD: string;
 }
 
+export interface Cargo {
+    ID_CARGO: number,
+    CARGO: string
+}
 
-
+export interface ListaDeCargos {
+    data: Cargo[],
+    message: string
+}
 

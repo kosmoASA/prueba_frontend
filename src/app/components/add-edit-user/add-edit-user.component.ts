@@ -2,8 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Data, TUser } from 'src/app/interfaces/user';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Cargo, Data, ListaDeCargos, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 import { GetlistService } from 'src/app/services/getlist.service';
 
@@ -16,11 +17,11 @@ export class AddEditUserComponent {
   
   //* Variables
  
-  cargoOptions: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
-
-  filteredOptions: string[];
-
   form: FormGroup;
+  cargoOptions: Cargo[];
+
+  filteredOptions!: Observable<Cargo[]>;
+
   maxDate: Date;
   
 
@@ -29,7 +30,6 @@ export class AddEditUserComponent {
               private _userService: SettingsService,
               public _getlistService: GetlistService,
               private _snackBar: MatSnackBar,
-              private router: Router,
               @Inject(MAT_DIALOG_DATA) public data: Data) 
   {
 
@@ -37,15 +37,16 @@ export class AddEditUserComponent {
       NOMBRE: ['', [ Validators.required]],
       APELLIDO: ['', [ Validators.required ]],
       EMAIL: ['', [ Validators.required, Validators.email ]],
-      CARGO: ['', [ Validators.required]],
+      ID_CARGO: ['', [ Validators.required]],
       PASSWORD: ['', [ Validators.required, Validators.minLength(8) ]],   
       FECHA_NACIMIENTO: ['', [ Validators.required]],
       
     });
 
+    this.cargoOptions = [];
     this.maxDate = new Date();
-    this.filteredOptions = [];
-    
+
+
     if ( this.data.event === 'update' && this.data.user !== null) {
       
       this.form.reset({
@@ -53,7 +54,7 @@ export class AddEditUserComponent {
         APELLIDO : this.data.user.APELLIDO,
         FECHA_NACIMIENTO : this.data.user.FECHA_NACIMIENTO,
         EMAIL : this.data.user.EMAIL,
-        CARGO : this.data.user.CARGO,
+        ID_CARGO : this.form.value.CARGO,
         PASSWORD : this.data.user.PASSWORD,
 
       })
@@ -67,18 +68,35 @@ export class AddEditUserComponent {
   //* Metodos
 
   ngOnInit () {
-    this.filteredOptions = this.cargoOptions;
+    
+    this.getCargo();
 
-    this.form.get('CARGO')?.valueChanges.subscribe(resp => {
-      this.filterDataCargo(resp);
+    this.filteredOptions = this.form.controls['ID_CARGO'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+
+  }
+
+  private _filter(value: string): Cargo[] {
+    const filterValue = value.toLowerCase();
+    return this.cargoOptions.filter(option => option.CARGO.toLowerCase().includes(filterValue));
+  }
+
+
+  getCargo () {
+    this._userService.getPositionList().subscribe((data: ListaDeCargos) => {
+      this.cargoOptions = data.data;
     })
   }
 
-  filterDataCargo( cargoData: string ) {
-    this.filteredOptions = this.cargoOptions.filter( item => {
-      return item.toLowerCase().indexOf(cargoData.toLowerCase()) >= 0;
-    })
+  getIdCargo(dataId: string): number{
+    const id = dataId.split('-')[0];
+    return Number(id);
+  }
 
+  obtenerNombreCargo(id: number, ){
+    return Number(id);
   }
 
   cancelarBoton() {
@@ -95,28 +113,39 @@ export class AddEditUserComponent {
       NOMBRE: this.form.value.NOMBRE,
       APELLIDO: this.form.value.APELLIDO,
       EMAIL: this.form.value.EMAIL,
-      CARGO: this.form.value.CARGO,
+      ID_CARGO: this.getIdCargo(this.form.value.ID_CARGO),
       PASSWORD: this.form.value.PASSWORD,
       FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
 
     if ( this.data.event === 'new') {
-       this._userService.newUser(usuario).subscribe(() => {
+       this._userService.newUser(usuario).subscribe({
 
-         this.dialogRef.close();
-         this._getlistService.getUserListData();    
+        next: (resp:any) => {
+          this.dialogRef.close();
+          this.mensajeExito(resp)
+          this._getlistService.getUserListData();
+        },
+        error: ({error}) => {
+          this.mensajeError(error);
+        }
+
+       }
+
                 
-      })
+      )
     } else {
         this._userService.updateUser(usuario).subscribe(
         {
           next: ( resp: any) => {
             
             this.dialogRef.close();
+            this.mensajeExito(resp);
             this._getlistService.getUserListData(); 
-          }, error: ({error}) => {
-            this.mensajeErrorUpdate(error);
+          }, 
+          error: ({error}) => {
+            this.mensajeError(error);
           }
         }
       )
@@ -125,9 +154,17 @@ export class AddEditUserComponent {
   }
 
 
-  mensajeErrorUpdate(error: any ) {
+  mensajeError(error: any ) {
     this._snackBar.open(`Error: ${ error.message }`, 'Oppps!!!', {
-      duration: 2000,
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
+  
+  mensajeExito(msg: any ) {
+    this._snackBar.open(`${ msg.message }`, '', {
+      duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     })

@@ -27,7 +27,7 @@ export class ModalDeleteComponent {
       PASWWORD: ['', Validators.required],
     })
 
-    this.form.patchValue({ EMAIL: data.email })
+    this.form.patchValue({ EMAIL: data.EMAIL })
   }
 
   

@@ -5,7 +5,7 @@ import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { GetlistService } from 'src/app/services/getlist.service';
 import { SettingsService } from 'src/app/services/app.service';
-import { timer } from 'rxjs';
+import { map, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
@@ -27,7 +27,7 @@ export class UserListComponent {
     'APELLIDO',
     'FECHA_NACIMIENTO',
     'EMAIL',
-    'CARGO',
+    'ID_CARGO',
     'PASSWORD',
     'acciones'
   ];
@@ -59,8 +59,7 @@ export class UserListComponent {
   }
 
   getUser() {
-    this._getlistService.getUserListData();
-    
+    this._getlistService.getUserListData();  
   }
 
   onUser(user: TUser | null, event: string) {

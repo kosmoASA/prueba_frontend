@@ -51,7 +51,7 @@
         <br>
         <div class="row">
             <div class="column">
-                <mat-form-field formControlName="CARGO">
+                <mat-form-field>
 
                     <mat-label>Cargo</mat-label>
 
@@ -61,16 +61,15 @@
                                 matInput
                                 aria-label="Cargo"
                                 [matAutocomplete]="auto"
-                                formControlName="CARGO"
+                                formControlName="ID_CARGO"
+                                
                             >
 
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let item of filteredOptions" [value]="item">
-                                    {{ item }}
+                            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+                                <mat-option *ngFor="let item of filteredOptions | async" [value]="item.ID_CARGO + '-' + item.CARGO">
+                                    {{ item.ID_CARGO + '-' + item.CARGO }}
                                 </mat-option>
                             </mat-autocomplete>
-                
-                    
 
                 </mat-form-field>
             </div>

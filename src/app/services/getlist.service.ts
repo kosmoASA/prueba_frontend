@@ -14,9 +14,6 @@ export class GetlistService {
   usuarios : TUser[];
   dataSource!: MatTableDataSource<TUser>;
 
-  
- 
-
 
   constructor(private _userService: SettingsService,
               private _snackBar: MatSnackBar,

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Data, TUser } from '../interfaces/user';
+import { Observable, map } from 'rxjs';
+import { Cargo, Data, TUser } from '../interfaces/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -52,5 +52,8 @@ export class SettingsService {
     return this.http.delete<any>(`${this.baseUrl}/logout`);
   }
 
+  getPositionList(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/getPositionList`);
+  }
 
 }
