@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor, AsyncPipe } from '@angular/common';
 
 //* Modulos Angular
 
@@ -19,9 +19,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -43,7 +44,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    FormsModule,
+    NgFor,
+    AsyncPipe
     
   ],
   exports: [
@@ -63,7 +68,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    FormsModule,
+    NgFor,
+    AsyncPipe
     
   ]
 })

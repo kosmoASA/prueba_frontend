@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -10,13 +10,16 @@ import { GetlistService } from 'src/app/services/getlist.service';
 @Component({
   selector: 'app-add-edit-user',
   templateUrl: './add-edit-user.component.html',
-  styleUrls: ['./add-edit-user.component.css']
+  styleUrls: ['./add-edit-user.component.css'],
 })
 export class AddEditUserComponent {
   
   //* Variables
+ 
+  cargoOptions: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
 
-  cargo: string[] = ['Lead Manager', 'Front end developer', 'Backend developer', 'Otro'];
+  filteredOptions: string[];
+
   form: FormGroup;
   maxDate: Date;
   
@@ -41,8 +44,8 @@ export class AddEditUserComponent {
     });
 
     this.maxDate = new Date();
-
-
+    this.filteredOptions = [];
+    
     if ( this.data.event === 'update' && this.data.user !== null) {
       
       this.form.reset({
@@ -63,7 +66,20 @@ export class AddEditUserComponent {
 
   //* Metodos
 
-  
+  ngOnInit () {
+    this.filteredOptions = this.cargoOptions;
+
+    this.form.get('CARGO')?.valueChanges.subscribe(resp => {
+      this.filterDataCargo(resp);
+    })
+  }
+
+  filterDataCargo( cargoData: string ) {
+    this.filteredOptions = this.cargoOptions.filter( item => {
+      return item.toLowerCase().indexOf(cargoData.toLowerCase()) >= 0;
+    })
+
+  }
 
   cancelarBoton() {
     this.dialogRef.close();
@@ -95,7 +111,7 @@ export class AddEditUserComponent {
     } else {
         this._userService.updateUser(usuario).subscribe(
         {
-          next: (resp: any) => {
+          next: ( resp: any) => {
             
             this.dialogRef.close();
             this._getlistService.getUserListData(); 
@@ -116,7 +132,8 @@ export class AddEditUserComponent {
       verticalPosition: 'bottom'
     })
   }
- 
+  
+
 }
 
 

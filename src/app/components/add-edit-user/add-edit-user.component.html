@@ -1,18 +1,13 @@
 <h2 mat-dialog-title>Agregar Usuario</h2>
 
-<form [formGroup]="form" (ngSubmit)="submitAddEditPersona()" >
+<form [formGroup]="form" (ngSubmit)="submitAddEditPersona()">
     <mat-dialog-content>
 
         <div class="row">
             <div class="column">
                 <mat-form-field appearance="fill">
                     <mat-label>Nombre</mat-label>
-                    <input 
-                        matInput 
-                        placeholder="Ingrese Nombre" 
-                        autocomplete="off"
-                        formControlName="NOMBRE"
-                    >
+                    <input matInput placeholder="Ingrese Nombre" autocomplete="off" formControlName="NOMBRE">
                 </mat-form-field>
 
                 <div class="error">
@@ -25,12 +20,7 @@
             <div class="column">
                 <mat-form-field appearance="fill">
                     <mat-label>Apellido</mat-label>
-                    <input 
-                        matInput 
-                        placeholder="Ingrese Apellido" 
-                        autocomplete="off"
-                        formControlName="APELLIDO"
-                    >
+                    <input matInput placeholder="Ingrese Apellido" autocomplete="off" formControlName="APELLIDO">
                 </mat-form-field>
 
                 <div class="error">
@@ -45,12 +35,7 @@
             <div class="column">
                 <mat-form-field appearance="fill">
                     <mat-label>Email</mat-label>
-                    <input 
-                        matInput 
-                        placeholder="Ingrese Correo" 
-                        autocomplete="off"
-                        formControlName="EMAIL"
-                    >
+                    <input matInput placeholder="Ingrese Correo" autocomplete="off" formControlName="EMAIL">
                 </mat-form-field>
 
                 <div class="error">
@@ -61,32 +46,41 @@
                         El email es <strong>inválido</strong>.
                     </span>
                 </div>
-            </div>            
+            </div>
         </div>
         <br>
         <div class="row">
             <div class="column">
-                <mat-form-field>
+                <mat-form-field formControlName="CARGO">
+
                     <mat-label>Cargo</mat-label>
-                    <mat-select formControlName="CARGO" >
-                        <mat-option *ngFor="let item of cargo " [value]="item">
-                            {{ item }}
-                        </mat-option>
-                    </mat-select>
+
+                            <input 
+                                type="text" 
+                                placeholder="Ex. Gerente"
+                                matInput
+                                aria-label="Cargo"
+                                [matAutocomplete]="auto"
+                                formControlName="CARGO"
+                            >
+
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredOptions" [value]="item">
+                                    {{ item }}
+                                </mat-option>
+                            </mat-autocomplete>
+                
+                    
+
                 </mat-form-field>
             </div>
 
             <div class="column">
                 <mat-form-field appearance="fill">
                     <mat-label>Password</mat-label>
-                    <input 
-                        matInput 
-                        placeholder="Ingrese la contraseña" 
-                        autocomplete="off"
-                        formControlName="PASSWORD"
-                    >
+                    <input matInput placeholder="Ingrese la contraseña" autocomplete="off" formControlName="PASSWORD">
                 </mat-form-field>
-                
+
                 <div class="error">
                     <span *ngIf="form.get('PASSWORD')?.hasError('required') && form.get('PASSWORD')?.touched">
                         La contraseña es un campo <strong>requerido</strong>.
@@ -101,18 +95,14 @@
             <div class="column">
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha de Nacimiento</mat-label>
-                    <input
-                        matInput 
-                        [matDatepicker]="picker"
-                        formControlName="FECHA_NACIMIENTO"
-                        [max]="maxDate"
-                    >
+                    <input matInput [matDatepicker]="picker" formControlName="FECHA_NACIMIENTO" [max]="maxDate">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker touchUi #picker></mat-datepicker>
                 </mat-form-field>
 
                 <div class="error">
-                    <span *ngIf="form.get('FECHA_NACIMIENTO')?.hasError('required') && form.get('FECHA_NACIMIENTO')?.touched">
+                    <span
+                        *ngIf="form.get('FECHA_NACIMIENTO')?.hasError('required') && form.get('FECHA_NACIMIENTO')?.touched">
                         La fecha de nacimiento es un campo <strong>requerido</strong>.
                     </span>
                 </div>
@@ -123,8 +113,7 @@
 
     <mat-dialog-actions align="end">
         <button type="button" (click)="cancelarBoton()" mat-button color="primary">Cancelar</button>
-        <button type="submit" cdkFocusInitial  mat-raised-button color="primary" >Aceptar</button>
+        <button type="submit" cdkFocusInitial mat-raised-button color="primary">Aceptar</button>
     </mat-dialog-actions>
 
 </form>
-
