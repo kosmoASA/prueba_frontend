@@ -62,6 +62,7 @@ export class LoginComponent {
     this._userService.login(userLogin).subscribe({
       next: (resp: any) => {
         console.log( resp );
+        this.mensajeExitoLogin(resp)
         this._authService.setToken(resp.token);
         this.redirectHome();
       },
@@ -74,7 +75,15 @@ export class LoginComponent {
 
   mensajeErrorLogin(error: any ) {
     this._snackBar.open(`Error: ${ error.message }`, 'Oppps!!!', {
-      duration: 2000,
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
+
+  mensajeExitoLogin(msg: any) {
+    this._snackBar.open(`${ msg.message }`, '', {
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     })

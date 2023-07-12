@@ -8,10 +8,14 @@ export interface TUser {
     PASSWORD: string;
 }
 
-
 export interface Data {
     user: TUser | null;
     event: string;
+}
+
+export interface DeleteUser {
+    EMAIL: string;
+    PASSWORD: string;
 }
 
 export interface UserLogin {

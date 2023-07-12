@@ -5,17 +5,17 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput placeholder="Password" autocomplete="off" formControlName="EMAIL">
+      <input matInput type="email" placeholder="Email" formControlName="EMAIL">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput placeholder="Password" autocomplete="off" formControlName="PASSWORD">
+      <input matInput type="password" placeholder="Password" formControlName="PASSWORD">
     </mat-form-field>
 
     <div mat-dialog-actions>
       <button type="button" mat-button (click)="noDeleteBtn()">No</button>
-      <button mmat-raised-button color="primary" type="submit" mat-dialog-close cdkFocusInitial>Borrar</button>
+      <button mat-raised-button color="primary" type="submit" mat-dialog-close cdkFocusInitial>Eliminar</button>
     </div>
   </div>
 </form>

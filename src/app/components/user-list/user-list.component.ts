@@ -84,7 +84,8 @@ export class UserListComponent {
   deleteUser() {
     
     const dialogDelete = this.dialog.open(ModalDeleteComponent, {
-      width: '250px'
+      height: '350px',
+      width: '400px',
       
     })
 

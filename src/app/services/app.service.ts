@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Cargo, Data, TUser } from '../interfaces/user';
+import { Cargo, Data, DeleteUser, TUser, UserLogin } from '../interfaces/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -36,16 +36,19 @@ export class SettingsService {
   }
 
   updateUser(data: TUser): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/updateUser`, data, { headers: {"Content-Type": "application/json"} } );
+    return this.http.patch<any>(`${this.baseUrl}/updateUser`, data, 
+    { headers: {"Content-Type": "application/json"} } );
   }
 
-  deleteUser(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
-    
-    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, { body: data });
+  deleteUser(data: DeleteUser): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteUser`, 
+    { headers: {'Content-Type': 'application/json'}, body: data});
   }
 
-  login(data: {EMAIL: string, PASSWORD: string}): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data, { headers: {'Content-Type': 'application/json', credentials: "include",} });
+
+  login(data: UserLogin): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/login`, data, 
+    { headers: {'Content-Type': 'application/json', credentials: "include"} });
   }
 
   logout(): Observable<any> {

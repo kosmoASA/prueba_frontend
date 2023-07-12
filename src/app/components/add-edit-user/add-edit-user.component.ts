@@ -95,10 +95,6 @@ export class AddEditUserComponent {
     return Number(id);
   }
 
-  obtenerNombreCargo(id: number, ){
-    return Number(id);
-  }
-
   cancelarBoton() {
     this.dialogRef.close();
   }
