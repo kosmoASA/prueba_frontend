@@ -1,15 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { GetlistService } from 'src/app/services/getlist.service';
 import { SettingsService } from 'src/app/services/app.service';
-import { map, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
-import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -20,9 +19,11 @@ import { MatSort } from '@angular/material/sort';
 
 export class UserListComponent {
 
+  
+
   //* Variables
   loading = false;
-
+  
   displayedColumns: string[] = [
     'NOMBRE',
     'APELLIDO',
@@ -41,16 +42,19 @@ export class UserListComponent {
               private router: Router) 
   {
     
-    
   }
 
   
 
-  ngOnInit(): void {
+  //* Metodos
+
+  ngOnInit() {
     this.getUser();
   }
 
-  //* Metodos
+  getUser() {
+    this._getlistService.getUserListData();
+  }
 
    
   applyFilter(event: Event) {
@@ -59,24 +63,15 @@ export class UserListComponent {
   
   }
 
-  getUser() {
-    this._getlistService.getUserListData();  
-  }
 
   onUser(user: TUser | null, event: string) {
         
 
-    const dialogRef = this.dialog.open(AddEditUserComponent,{
+    this.dialog.open(AddEditUserComponent,{
       width: '600px',
       data: { 
         user: user,
         event: event
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.getUser();
       }
     });
   }
@@ -84,17 +79,11 @@ export class UserListComponent {
   
   deleteUser() {
     
-    const dialogDelete = this.dialog.open(ModalDeleteComponent, {
+    this.dialog.open(ModalDeleteComponent, {
       height: '350px',
       width: '400px',
       
     })
-
-    dialogDelete.afterClosed().subscribe(result => {
-    
-      this.getUser();
-      
-    });
 
   }
 
@@ -120,8 +109,6 @@ export class UserListComponent {
   }
 
 
-  
- 
 }
 
 

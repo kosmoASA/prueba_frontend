@@ -19,7 +19,7 @@ export class AddEditUserComponent {
  
   form: FormGroup;
   cargoOptions: Cargo[];
-
+  userSubject$ = this._getlistService.userSubject$;
   filteredOptions!: Observable<Cargo[]>;
 
   maxDate: Date;
@@ -63,8 +63,6 @@ export class AddEditUserComponent {
     }
   }
 
-
-
   //* Metodos
 
   ngOnInit () {
@@ -99,7 +97,7 @@ export class AddEditUserComponent {
     this.dialogRef.close();
   }
 
-  submitAddEditPersona() {
+  submitModalUser() {
 
     if(this.form.invalid) {
       return;
@@ -115,21 +113,19 @@ export class AddEditUserComponent {
     }
 
 
+
     if ( this.data.event === 'new') {
-       this._userService.newUser(usuario).subscribe({
-
-        next: (resp:any) => {
-          this.dialogRef.close();
-          this.mensajeExito(resp)
-          this._getlistService.getUserListData();
-        },
-        error: ({error}) => {
-          this.mensajeError(error);
+      this._userService.newUser(usuario).subscribe(
+        {
+          next: (resp: any) => {
+            this.dialogRef.close();
+            this.mensajeExito(resp);
+            this._getlistService.getUserListData();
+          },
+          error: ({error}) => {
+            this.mensajeError(error);
+          }
         }
-
-       }
-
-                
       )
     } else {
         this._userService.updateUser(usuario).subscribe(
@@ -138,7 +134,7 @@ export class AddEditUserComponent {
             
             this.dialogRef.close();
             this.mensajeExito(resp);
-            this._getlistService.getUserListData(); 
+            this._getlistService.getUserListData();
           }, 
           error: ({error}) => {
             this.mensajeError(error);

@@ -3,8 +3,7 @@ import { SettingsService } from './app.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TUser } from '../interfaces/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CookieService } from 'ngx-cookie-service';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -14,35 +13,27 @@ export class GetlistService {
 
   usuarios : TUser[];
   dataSource!: MatTableDataSource<TUser>;
-
-
+  private UserSubject = new BehaviorSubject<any>([]);
+  public userSubject$ = this.UserSubject.asObservable();
+  
+  
+  
   constructor(private _userService: SettingsService,
-              private _snackBar: MatSnackBar,
-              private _cookieService: CookieService,
-              private _liveAnnouncer: LiveAnnouncer) 
-  {
-    this.usuarios = [];
-   
-  }
-
-  ngAfterViewInit () {
-
-  }
-
-
-  getUserListData() : void {
+    private _snackBar: MatSnackBar) 
+    {
+      this.usuarios  = [];
+    }
+    
+  getUserListData() {
+    
     this._userService.getUserList().subscribe(resp => {
       this.usuarios = resp.data;
       this.dataSource = new MatTableDataSource(this.usuarios);
-      
-      // localStorage.setItem('access_token', resp.token);
-      this._cookieService.set('access_token', resp.token);
     })
   }
-
   
 
-  //Implementar mensaje de error
+  //Implementar mensaje de error - PENDIENTE
   mensajeErrorLista(error: any ) {
     this._snackBar.open(`Error al obtener la lista de Usuarios: ${ error.message }`, '', {
       duration: 2000,
