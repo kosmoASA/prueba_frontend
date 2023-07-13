@@ -9,6 +9,7 @@ import { map, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -37,13 +38,13 @@ export class UserListComponent {
               public _getlistService: GetlistService,
               public _authService: AuthService,
               private _userService: SettingsService,
-              private router: Router,
-              ) 
+              private router: Router) 
   {
     
     
   }
 
+  
 
   ngOnInit(): void {
     this.getUser();
@@ -118,6 +119,8 @@ export class UserListComponent {
     
   }
 
+
+  
  
 }
 
