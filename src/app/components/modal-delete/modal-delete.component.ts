@@ -24,7 +24,6 @@ export class ModalDeleteComponent {
   {
     this.form = this.fb.group({
       EMAIL: ['', [Validators.required, Validators.email]],
-      PASSWORD: ['', Validators.required],
     });
 
   }
@@ -38,7 +37,6 @@ export class ModalDeleteComponent {
 
     const userToDelete: DeleteUser = {
       EMAIL: this.form.value.EMAIL,
-      PASSWORD: this.form.value.PASSWORD,
     }
     console.log( userToDelete )
 

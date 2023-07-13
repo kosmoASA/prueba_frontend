@@ -15,7 +15,6 @@ export interface Data {
 
 export interface DeleteUser {
     EMAIL: string;
-    PASSWORD: string;
 }
 
 export interface UserLogin {

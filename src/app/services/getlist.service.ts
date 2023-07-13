@@ -42,7 +42,8 @@ export class GetlistService {
     this._snackBar.open(`Error al obtener la lista de Usuarios: ${ error.message }`, '', {
       duration: 2000,
       horizontalPosition: 'center',
-      verticalPosition: 'bottom'
+      verticalPosition: 'bottom',
+      
     })
   }
 }

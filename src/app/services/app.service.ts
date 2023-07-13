@@ -42,9 +42,8 @@ export class SettingsService {
 
   deleteUser(data: DeleteUser): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteUser`, 
-    { headers: {'Content-Type': 'application/json'}, body: data});
+    { body: data});
   }
-
 
   login(data: UserLogin): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/login`, data, 
