@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TUser } from 'src/app/interfaces/user';
+import { DeleteUser, TUser } from 'src/app/interfaces/user';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { GetlistService } from 'src/app/services/getlist.service';
@@ -26,7 +26,6 @@ export class UserListComponent {
   dataSource!: MatTableDataSource<TUser>;
 
   private UserSubject = new BehaviorSubject<any>([]);
-  public userSubject$ = this.UserSubject.asObservable();
   
   displayedColumns: string[] = [
     'NOMBRE',
@@ -57,19 +56,15 @@ export class UserListComponent {
       this.usuarios = data;
       this.dataSource = new MatTableDataSource(this.usuarios);
     })
-    this.refreshListData(true);
+    this.refreshListData();
   }
 
 
-  refreshListData(event: any) {
-    console.log( event )
-    if(event) {
-      this._userService.getUserList().subscribe(resp => {
-        console.log( resp )
-        this.UserSubject.next(resp.data);
-      })
-
-    }
+  refreshListData() {
+    
+    this._userService.getUserList().subscribe(resp => {
+      this.UserSubject.next(resp.data);
+    })
 
   }
 
@@ -92,7 +87,7 @@ export class UserListComponent {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshListData(true);
+      this.refreshListData();
     })
   }
 
@@ -100,20 +95,19 @@ export class UserListComponent {
   deleteUser() {
     
     const dialogRef = this.dialog.open(ModalDeleteComponent, {
-      height: '350px',
-      width: '400px',
-      
-    })
-
+      height: '300px',
+      width: '300px'
+    });
+    
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshListData(true);
-    })
+      this.refreshListData();
+    });
   }
 
   logoutUser() {
     this._userService.logout().subscribe({
       next: (resp: any) => {
-        console.log( resp );
+        
         this._authService.deleteToken();
         this.redirectLogin();
       },

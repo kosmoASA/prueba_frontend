@@ -29,7 +29,7 @@ export class ModalDeleteComponent {
   }
 
   
-  deleteBtn() {
+  deleteUser() {
 
     if(this.form.invalid) {
       return;
@@ -39,16 +39,17 @@ export class ModalDeleteComponent {
       EMAIL: this.form.value.EMAIL,
     }
 
-    this._userService.deleteUser(userToDelete).subscribe({
-      next: (resp: any) => {
-        this.dialogRef.close();
-        this.mensajeExito(resp);
-      },
-      error: ({error}) => {
-        this.mensajeErrorDelete(error);
+    this._userService.deleteUser(userToDelete).subscribe(
+      {
+        next: (resp: any) => {
+          this.dialogRef.close();
+          this.mensajeExito(resp);
+        },
+        error: ({error}) => {
+          this.mensajeErrorDelete(error);
+        }
       }
-  
-    })
+    )
 
   }
 

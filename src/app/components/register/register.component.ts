@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserLogin } from 'src/app/interfaces/user';
+import { Observable, lastValueFrom, map, startWith } from 'rxjs';
+import { Cargo, ListaDeCargos, TUser, UserLogin } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 
 @Component({
@@ -12,7 +13,11 @@ import { SettingsService } from 'src/app/services/app.service';
 })
 export class RegisterComponent {
 
-  form!: FormGroup;
+  form: FormGroup;
+  cargoOptions: Cargo[];
+  filteredOptions!: Observable<Cargo[]>;
+
+  maxDate: Date;
 
   constructor(private fb: FormBuilder,
               private _snackBar: MatSnackBar,
@@ -20,39 +25,90 @@ export class RegisterComponent {
               private router: Router) 
   {
     this.form = this.fb.group({
-      EMAIL: ['', [Validators.required, Validators.email]] ,
-      PASSWORD: ['', [Validators.required, Validators.minLength(8)]],
-      CONFIRM_PASSWORD: ['', [Validators.required, Validators.minLength(8)]],
+      NOMBRE: ['', [ Validators.required]],
+      APELLIDO: ['', [ Validators.required ]],
+      EMAIL: ['', [ Validators.required, Validators.email ]],
+      ID_CARGO: ['', [ Validators.required]],
+      PASSWORD: ['', [ Validators.required, Validators.minLength(8) ]],   
+      FECHA_NACIMIENTO: ['', [ Validators.required]],
+    });
 
-    })
+    this.cargoOptions = [];
+    this.maxDate = new Date();
   }
 
 
-  registerUser() {
+  //* Metodos
+
+  ngOnInit () {
+    this.getCargo();
+
+    this.filteredOptions = this.form.controls['ID_CARGO'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+  }
+
+  private _filter(value: string): Cargo[] {
+    const filterValue = value.toLowerCase();
+    return this.cargoOptions.filter(option => option.CARGO.toLowerCase().includes(filterValue));
+  }
+
+
+  getCargo () {
+    this._userService.getPositionList().subscribe((data: ListaDeCargos) => {
+      this.cargoOptions = data.data;
+    })
+  }
+
+  getIdCargo(dataId: string): number{
+    const id = dataId.split('-')[0];
+    return Number(id);
+  }
+  
+
+  async registerUser() {
+
     if(this.form.invalid) {
       return;
     }
 
-    if(this.form.value.PASSWORD !== this.form.value.CONFIRM_PASSWORD ) {
-      this.mensajeError();
-      return;
-    }
-
-    const userRegister: UserLogin = {
+    const userRegister: TUser = {
+      NOMBRE: this.form.value.NOMBRE,
+      APELLIDO: this.form.value.APELLIDO,
       EMAIL: this.form.value.EMAIL,
+      ID_CARGO: this.getIdCargo(this.form.value.ID_CARGO),
       PASSWORD: this.form.value.PASSWORD,
+      FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
-    this._userService.login(userRegister).subscribe({ //Hay que cambiar la petición a la llamada al servicio que corresponda para Regsitrarse
-      next: (resp: any) => {
-        console.log( 'el usuario fue registrado con éxito' );
-        this.mensajeExito();
-        this.router.navigate(['login']);
-      },
-      error: ({ error }) => {
-        this.mensajeErrorRegistro(error);
-      }
-    })
+    try {
+
+      const register$ = this._userService.newUser(userRegister);
+      const addRegister = await lastValueFrom(register$);
+
+      this.mensajeExito();
+      this.router.navigate(['login']);
+
+    } catch (error) {
+
+      this.mensajeErrorRegistro(error);
+      
+    }
+
+
+    // this._userService.newUser(userRegister).subscribe(
+    //   { 
+    //     next: (resp: any) => {
+    //       console.log( 'el usuario ha sido registrado con éxito' );
+    //       this.mensajeExito();
+    //       this.router.navigate(['login']);
+    //     },
+    //     error: ( error ) => {
+    //       this.mensajeErrorRegistro(error);
+    //     }
+    //   }
+    // )
   }
 
 

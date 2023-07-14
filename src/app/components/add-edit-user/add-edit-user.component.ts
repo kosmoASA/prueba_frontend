@@ -19,8 +19,6 @@ export class AddEditUserComponent {
  
   form: FormGroup;
   cargoOptions: Cargo[];
-
-
   filteredOptions!: Observable<Cargo[]>;
 
   maxDate: Date;
