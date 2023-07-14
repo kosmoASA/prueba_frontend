@@ -2,8 +2,8 @@ import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, concat, forkJoin, iif, of } from 'rxjs';
+import { concatMap, every, map, startWith } from 'rxjs/operators';
 import { Cargo, Data, ListaDeCargos, TUser } from 'src/app/interfaces/user';
 import { SettingsService } from 'src/app/services/app.service';
 import { GetlistService } from 'src/app/services/getlist.service';
@@ -14,22 +14,20 @@ import { GetlistService } from 'src/app/services/getlist.service';
   styleUrls: ['./add-edit-user.component.css'],
 })
 export class AddEditUserComponent {
-  
+
   //* Variables
- 
   form: FormGroup;
   cargoOptions: Cargo[];
   filteredOptions!: Observable<Cargo[]>;
 
   maxDate: Date;
-  
 
-  constructor(public dialogRef: MatDialogRef<AddEditUserComponent>, 
+  constructor(public dialogRef: MatDialogRef<AddEditUserComponent>,
               private fb: FormBuilder,
               private _userService: SettingsService,
               public _getlistService: GetlistService,
               private _snackBar: MatSnackBar,
-              @Inject(MAT_DIALOG_DATA) public data: Data) 
+              @Inject(MAT_DIALOG_DATA) public data: Data)
   {
 
     this.form = this.fb.group({
@@ -37,9 +35,9 @@ export class AddEditUserComponent {
       APELLIDO: ['', [ Validators.required ]],
       EMAIL: ['', [ Validators.required, Validators.email ]],
       ID_CARGO: ['', [ Validators.required]],
-      PASSWORD: ['', [ Validators.required, Validators.minLength(8) ]],   
+      PASSWORD: ['', [ Validators.required, Validators.minLength(8) ]],
       FECHA_NACIMIENTO: ['', [ Validators.required]],
-      
+
     });
 
     this.cargoOptions = [];
@@ -47,7 +45,7 @@ export class AddEditUserComponent {
 
 
     if ( this.data.event === 'update' && this.data.user !== null) {
-      
+
       this.form.reset({
         NOMBRE : this.data.user.NOMBRE,
         APELLIDO : this.data.user.APELLIDO,
@@ -57,15 +55,14 @@ export class AddEditUserComponent {
         PASSWORD : this.data.user.PASSWORD,
 
       })
-
-      
     }
+
   }
 
   //* Metodos
 
   ngOnInit () {
-    
+
     this.getCargo();
 
     this.filteredOptions = this.form.controls['ID_CARGO'].valueChanges.pipe(
@@ -96,6 +93,7 @@ export class AddEditUserComponent {
     this.dialogRef.close();
   }
 
+
   submitModalUser() {
 
     if(this.form.invalid) {
@@ -111,34 +109,55 @@ export class AddEditUserComponent {
       FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
+    this.dialogRef.close(usuario);
 
+    //* Llamada en paralelo con ForkJoin
 
-    if ( this.data.event === 'new') {
-      this._userService.newUser(usuario).subscribe(
-        {
-          next: (resp: any) => {
-            this.dialogRef.close();
-            this.mensajeExito(resp);
-          },
-          error: ({error}) => {
-            this.mensajeError(error);
-          }
-        }
-      )
-    } else {
-        this._userService.updateUser(usuario).subscribe(
-        {
-          next: ( resp: any) => {
-            
-            this.dialogRef.close();
-            this.mensajeExito(resp);
-          }, 
-          error: ({error}) => {
-            this.mensajeError(error);
-          }
-        }
-      )
-    }
+    
+
+    // let condition$: any;
+    // const requestNewUser = this._userService.newUser(usuario);
+    // const requestUpdateUser = this._userService.updateUser(usuario);
+
+    // const condition = iif(()=> condition$, of(requestNewUser), of(requestUpdateUser))
+
+    
+    // forkJoin([requestNewUser, requestUpdateUser ]).subscribe({
+    //   next: (resp) => {
+    //     this.dialogRef.close();
+    //     this.mensajeExito(resp);
+    //   },
+    //   error: (error) => {
+    //     this.mensajeError(error);
+    //   }
+    // })
+
+    // if ( this.data.event === 'new') {
+    //   this._userService.newUser(usuario).subscribe(
+    //     {
+    //       next: (resp: any) => {
+    //         this.dialogRef.close();
+    //         this.mensajeExito(resp);
+    //       },
+    //       error: ({error}) => {
+    //         this.mensajeError(error);
+    //       }
+    //     }
+    //   )
+    // } else {
+    //     this._userService.updateUser(usuario).subscribe(
+    //     {
+    //       next: ( resp: any) => {
+
+    //         this.dialogRef.close();
+    //         this.mensajeExito(resp);
+    //       },
+    //       error: ({error}) => {
+    //         this.mensajeError(error);
+    //       }
+    //     }
+    //   )
+    // }
 
   }
 
@@ -150,7 +169,7 @@ export class AddEditUserComponent {
       verticalPosition: 'bottom'
     })
   }
-  
+
   mensajeExito(msg: any ) {
     this._snackBar.open(`${ msg.message }`, '', {
       duration: 4000,
@@ -158,7 +177,7 @@ export class AddEditUserComponent {
       verticalPosition: 'bottom'
     })
   }
-  
+
 
 }
 

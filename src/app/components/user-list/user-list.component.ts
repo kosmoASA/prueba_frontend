@@ -5,7 +5,7 @@ import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from '../modal-delete/modal-delete.component';
 import { GetlistService } from 'src/app/services/getlist.service';
 import { SettingsService } from 'src/app/services/app.service';
-import { BehaviorSubject, timer } from 'rxjs';
+import { BehaviorSubject, Observable, concatMap, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,7 +25,7 @@ export class UserListComponent {
   usuarios : TUser[] = [];
   dataSource!: MatTableDataSource<TUser>;
 
-  private UserSubject = new BehaviorSubject<any>([]);
+  private UserSubject$ = new BehaviorSubject<any>([]);
   
   displayedColumns: string[] = [
     'NOMBRE',
@@ -41,6 +41,7 @@ export class UserListComponent {
   constructor(public dialog: MatDialog, 
               public _getlistService: GetlistService,
               public _authService: AuthService,
+              private _snackBar: MatSnackBar,
               private _userService: SettingsService,
               private router: Router) 
   {
@@ -52,10 +53,11 @@ export class UserListComponent {
   //* Metodos
 
   ngOnInit() {
-    this.UserSubject.subscribe((data: TUser[] )=> {
+    this.UserSubject$.subscribe((data: TUser[] )=> {
       this.usuarios = data;
       this.dataSource = new MatTableDataSource(this.usuarios);
     })
+
     this.refreshListData();
   }
 
@@ -63,7 +65,7 @@ export class UserListComponent {
   refreshListData() {
     
     this._userService.getUserList().subscribe(resp => {
-      this.UserSubject.next(resp.data);
+      this.UserSubject$.next(resp.data);
     })
 
   }
@@ -73,6 +75,23 @@ export class UserListComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   
+  }
+
+  handleUpdateOrCreate(event: string, userData$: Observable<any>) {
+    userData$.pipe(
+      concatMap((resp1: any): Observable<any> => {
+        if(!resp1) this.mensajeError(event);
+        return this.UserSubject$;
+      })
+    )
+    .subscribe({
+      next: (resp2: any) => {
+        this.refreshListData()
+      },
+      error: (error) => {
+        this.mensajeError(error)
+      }
+    })
   }
 
 
@@ -86,9 +105,21 @@ export class UserListComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().subscribe((usuario)=> {
+
+      if(event === 'new') {
+        const newUserData$ = this._userService.newUser(usuario);
+        this.handleUpdateOrCreate('crear', newUserData$)
+      };
+
+      if(event === 'update') {
+        const updateUserData$ = this._userService.updateUser(usuario);
+        this.handleUpdateOrCreate('actualizar', updateUserData$)
+      };
+
       this.refreshListData();
     })
+
   }
 
   
@@ -122,10 +153,23 @@ export class UserListComponent {
     this.loading = true;
     const navLogin = timer(1000);
     navLogin.subscribe(() => this.router.navigate(['login']));
-    
   }
 
+  mensajeError(error: any ) {
+    this._snackBar.open(`Error: ${ error }`, 'Oppps!!!', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
 
+  mensajeExito(msg: any ) {
+    this._snackBar.open(`${ msg.message }`, '', {
+      duration: 4000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+  }
 }
 
 
