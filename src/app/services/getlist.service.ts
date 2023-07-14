@@ -11,26 +11,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GetlistService {
 
-  usuarios : TUser[];
-  dataSource!: MatTableDataSource<TUser>;
-  private UserSubject = new BehaviorSubject<any>([]);
-  public userSubject$ = this.UserSubject.asObservable();
-  
   
   
   constructor(private _userService: SettingsService,
     private _snackBar: MatSnackBar) 
     {
-      this.usuarios  = [];
+    
     }
     
-  getUserListData() {
-    
-    this._userService.getUserList().subscribe(resp => {
-      this.usuarios = resp.data;
-      this.dataSource = new MatTableDataSource(this.usuarios);
-    })
-  }
+  
   
 
   //Implementar mensaje de error - PENDIENTE

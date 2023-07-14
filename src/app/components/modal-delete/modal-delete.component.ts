@@ -38,13 +38,11 @@ export class ModalDeleteComponent {
     const userToDelete: DeleteUser = {
       EMAIL: this.form.value.EMAIL,
     }
-    console.log( userToDelete )
 
     this._userService.deleteUser(userToDelete).subscribe({
       next: (resp: any) => {
         this.dialogRef.close();
-        this.mensajeExito();
-        this._getlistService.getUserListData();
+        this.mensajeExito(resp);
       },
       error: ({error}) => {
         this.mensajeErrorDelete(error);
@@ -59,9 +57,9 @@ export class ModalDeleteComponent {
   }
 
 
-  mensajeExito() {
-    this._snackBar.open('La persona fue eliminada con éxito', '', {
-      duration: 3000,
+  mensajeExito(msg: any ) {
+    this._snackBar.open(`${ msg.message }`, '', {
+      duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     })

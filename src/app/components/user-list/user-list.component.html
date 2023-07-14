@@ -29,8 +29,8 @@
 
         </div>
 
-        <table mat-table [dataSource]="_getlistService.dataSource" class="mat-elevation-z5">
-
+        <table mat-table [dataSource]="usuarios"  class="mat-elevation-z5">
+          
           <ng-container matColumnDef="NOMBRE">
             <th mat-header-cell *matHeaderCellDef > Nombre </th>
             <td mat-cell matTooltip="Nombre" *matCellDef="let element"> {{element.NOMBRE}} </td>

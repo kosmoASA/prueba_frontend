@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -19,7 +19,8 @@ export class AddEditUserComponent {
  
   form: FormGroup;
   cargoOptions: Cargo[];
-  userSubject$ = this._getlistService.userSubject$;
+
+
   filteredOptions!: Observable<Cargo[]>;
 
   maxDate: Date;
@@ -120,7 +121,6 @@ export class AddEditUserComponent {
           next: (resp: any) => {
             this.dialogRef.close();
             this.mensajeExito(resp);
-            this._getlistService.getUserListData();
           },
           error: ({error}) => {
             this.mensajeError(error);
@@ -134,7 +134,6 @@ export class AddEditUserComponent {
             
             this.dialogRef.close();
             this.mensajeExito(resp);
-            this._getlistService.getUserListData();
           }, 
           error: ({error}) => {
             this.mensajeError(error);
