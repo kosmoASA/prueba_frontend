@@ -42,15 +42,14 @@ export class ModalDeleteComponent {
     this._userService.deleteUser(userToDelete).subscribe(
       {
         next: (resp: any) => {
-          this.dialogRef.close();
           this.mensajeExito(resp);
+          this.dialogRef.close();
         },
         error: ({error}) => {
           this.mensajeErrorDelete(error);
         }
       }
     )
-
   }
 
   noDeleteBtn() {

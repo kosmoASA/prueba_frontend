@@ -11,7 +11,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GetlistService {
 
-  
+  private UserSubject = new BehaviorSubject<any>([]);
+  public userSubject$ = this.UserSubject.asObservable();
   
   constructor(private _userService: SettingsService,
     private _snackBar: MatSnackBar) 
@@ -20,12 +21,20 @@ export class GetlistService {
     }
     
   
-  
+  refreshListData() {
+    this._userService.getUserList().subscribe({
+      next: (resp: any) => {
+        this.UserSubject.next(resp.data);
+      },
+      error: (error: any) => {
+        this.mensajeErrorLista(error)
+      }
+    })
+  }
 
-  //Implementar mensaje de error - PENDIENTE
   mensajeErrorLista(error: any ) {
     this._snackBar.open(`Error al obtener la lista de Usuarios: ${ error.message }`, '', {
-      duration: 2000,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       

@@ -25,7 +25,7 @@ export class UserListComponent {
   usuarios : TUser[] = [];
   dataSource!: MatTableDataSource<TUser>;
 
-  private UserSubject$ = new BehaviorSubject<any>([]);
+  // private UserSubject$ = new BehaviorSubject<any>([]);
   
   displayedColumns: string[] = [
     'NOMBRE',
@@ -48,26 +48,17 @@ export class UserListComponent {
     
   }
 
-  
+
 
   //* Metodos
 
   ngOnInit() {
-    this.UserSubject$.subscribe((data: TUser[] )=> {
+    this._getlistService.userSubject$.subscribe((data: TUser[] )=> {
       this.usuarios = data;
       this.dataSource = new MatTableDataSource(this.usuarios);
     })
-
-    this.refreshListData();
-  }
-
-
-  refreshListData() {
     
-    this._userService.getUserList().subscribe(resp => {
-      this.UserSubject$.next(resp.data);
-    })
-
+    this._getlistService.refreshListData();
   }
 
    
@@ -76,24 +67,6 @@ export class UserListComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   
   }
-
-  handleUpdateOrCreate(event: string, userData$: Observable<any>) {
-    userData$.pipe(
-      concatMap((resp1: any): Observable<any> => {
-        if(!resp1) this.mensajeError(event);
-        return this.UserSubject$;
-      })
-    )
-    .subscribe({
-      next: (resp2: any) => {
-        this.refreshListData()
-      },
-      error: (error) => {
-        this.mensajeError(error)
-      }
-    })
-  }
-
 
   onUser(user: TUser | null, event: string) {
 
@@ -105,19 +78,10 @@ export class UserListComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe((usuario)=> {
+    dialogRef.afterClosed().subscribe(()=> {
 
-      if(event === 'new') {
-        const newUserData$ = this._userService.newUser(usuario);
-        this.handleUpdateOrCreate('crear', newUserData$)
-      };
+      this._getlistService.refreshListData();
 
-      if(event === 'update') {
-        const updateUserData$ = this._userService.updateUser(usuario);
-        this.handleUpdateOrCreate('actualizar', updateUserData$)
-      };
-
-      this.refreshListData();
     })
 
   }
@@ -131,9 +95,10 @@ export class UserListComponent {
     });
     
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshListData();
+      this._getlistService.refreshListData();
     });
   }
+
 
   logoutUser() {
     this._userService.logout().subscribe({

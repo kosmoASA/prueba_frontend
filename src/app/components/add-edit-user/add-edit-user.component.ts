@@ -93,6 +93,29 @@ export class AddEditUserComponent {
     this.dialogRef.close();
   }
 
+  // handleUpdateOrCreate(userData$: Observable<any>) {
+
+
+  //   userData$.pipe(
+  //     concatMap((resp1: any): Observable<any> => {
+  //       if(!resp1) {
+  //         this.mensajeError(resp1)
+  //       }
+  //       return resp1
+        
+  //     })
+  //   )
+  //   .subscribe({
+  //     next: (resp2: any) => {
+  //       console.log( resp2 )
+  //       // this.refreshListData();
+  //     },
+  //     error: (error) => {
+  //       this.mensajeError(error)
+  //     }
+  //   })
+  // }
+
 
   submitModalUser() {
 
@@ -109,55 +132,44 @@ export class AddEditUserComponent {
       FECHA_NACIMIENTO: this.form.value.FECHA_NACIMIENTO,
     }
 
-    this.dialogRef.close(usuario);
+    // if(this.data.event === 'new') {
+    //   const newUserData$ = this._userService.newUser(usuario);
+    //   this.handleUpdateOrCreate(newUserData$)
 
-    //* Llamada en paralelo con ForkJoin
+    // };
 
+    // if(this.data.event === 'update') {
+    //   const updateUserData$ = this._userService.updateUser(usuario);
+    //   this.handleUpdateOrCreate(updateUserData$)
+    // };
     
 
-    // let condition$: any;
-    // const requestNewUser = this._userService.newUser(usuario);
-    // const requestUpdateUser = this._userService.updateUser(usuario);
+    if ( this.data.event === 'new') {
+      this._userService.newUser(usuario).subscribe(
+        {
+          next: (resp: any) => {
+            this.dialogRef.close();
+            this.mensajeExito(resp);
+          },
+          error: ({error}) => {
+            this.mensajeError(error);
+          }
+        }
+      )
+    } else {
+        this._userService.updateUser(usuario).subscribe(
+        {
+          next: ( resp: any) => {
 
-    // const condition = iif(()=> condition$, of(requestNewUser), of(requestUpdateUser))
-
-    
-    // forkJoin([requestNewUser, requestUpdateUser ]).subscribe({
-    //   next: (resp) => {
-    //     this.dialogRef.close();
-    //     this.mensajeExito(resp);
-    //   },
-    //   error: (error) => {
-    //     this.mensajeError(error);
-    //   }
-    // })
-
-    // if ( this.data.event === 'new') {
-    //   this._userService.newUser(usuario).subscribe(
-    //     {
-    //       next: (resp: any) => {
-    //         this.dialogRef.close();
-    //         this.mensajeExito(resp);
-    //       },
-    //       error: ({error}) => {
-    //         this.mensajeError(error);
-    //       }
-    //     }
-    //   )
-    // } else {
-    //     this._userService.updateUser(usuario).subscribe(
-    //     {
-    //       next: ( resp: any) => {
-
-    //         this.dialogRef.close();
-    //         this.mensajeExito(resp);
-    //       },
-    //       error: ({error}) => {
-    //         this.mensajeError(error);
-    //       }
-    //     }
-    //   )
-    // }
+            this.dialogRef.close();
+            this.mensajeExito(resp);
+          },
+          error: ({error}) => {
+            this.mensajeError(error);
+          }
+        }
+      )
+    }
 
   }
 
