@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Convertidor de separación de miles</h2>
+<mat-dialog-content class="mat-typography">
+
+
+
+  <form [formGroup]="form" on (ngSubmit)="submitModal()">
+    <h4>Separador de miles por:</h4>
+    <mat-form-field>
+      <mat-label>Seleccione una opción</mat-label>
+      <mat-select [formControl]="optionSelectedMiles"  name="options">
+        <mat-option  *ngFor="let option of optionsToSelectMiles" [value]="option.value" >
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <h4>Separador de decimales por:</h4>
+    <mat-form-field>
+      <mat-label>Seleccione una opción</mat-label>
+      <mat-select  [formControl]="optionSelectedDecimal" (selectionChange)="disabledOption($event)" name="options" >
+        <mat-option  *ngFor="let option of optionsToSelectDecimal" [value]="option.value" >
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+
+
+    <mat-form-field class="example-form-field">
+      <mat-label>Inserta un número</mat-label>
+      <input matInput #optionInput type="text" (change)="modifyNumber($event)" formControlName="number">
+      
+    </mat-form-field>
+
+    
+
+    <mat-dialog-actions>
+      <button type="button" mat-button mat-dialog-close mat-button color="accent">Cancelar</button>
+      <button type="submit" mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+    </mat-dialog-actions>
+  </form>

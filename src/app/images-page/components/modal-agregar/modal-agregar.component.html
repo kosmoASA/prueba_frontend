@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Agregar una Imagen</h1>
+
+<form [formGroup]="form" (ngSubmit)="agregarImagen()" >
+
+    <mat-dialog-content>
+
+        <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label>Inserta una Imagen</ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+        </ngx-dropzone>
+
+        <br>
+
+        <mat-form-field class="example-full-width<">
+            <mat-label>Fecha de Registro</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="fecha" [max]="maxDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 color="accent"></mat-datepicker>
+        </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button type="button" mat-button mat-dialog-close mat-button color="accent">Cancelar</button>
+        <button type="submit" mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial
+        >Agregar</button>
+    </mat-dialog-actions>
+
+    <!-- Pendiente agregar mensaje de error cuando los campos no están completos  -->
+
+</form>

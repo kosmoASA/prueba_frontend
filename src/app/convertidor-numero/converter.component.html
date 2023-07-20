@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="body_div">
+    <mat-toolbar class="toolbar_converter">
+    <mat-toolbar-row>
+      <span>Convertidor de separador de miles</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <div class="main_div">
+  
+    <div class="div_dialog">
+      <button mat-fab extended color="accent" (click)="openDialog()">
+          <mat-icon>check_box</mat-icon>
+          Separador de miles
+      </button>
+  </div>
+  
+  <mat-card class="div_card">
+    <mat-card-header>
+      <mat-card-title>El número modificado es:</mat-card-title>
+      
+    </mat-card-header>
+    <br>
+    <br>
+    <mat-card-content>
+      <p>{{number}}</p>
+    </mat-card-content>
+  </mat-card>
+  
+  </div>
+  </div>
+  
+</div>

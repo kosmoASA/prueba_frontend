@@ -1,0 +1,39 @@
+.main_div {
+    display: grid;
+    grid-template-columns: auto 500px auto;
+    grid-template-rows: 150px 200px 286px;
+}
+
+.div_dialog {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    display: grid;
+    place-content: center;
+}
+
+.div_card{
+    grid-column: 2/3;
+    grid-row: 2/3;
+    display: grid;
+    place-content: center;
+    margin: 10px;
+}
+
+button {
+    font-size: 16px;
+}
+
+p {
+    font-size: 40px;
+}
+
+.toolbar_converter {
+    background-color: #a58ee5f5;
+}
+
+.body_div {
+    border-radius: 5px;
+    border: 2px solid #333;
+    height: 700px;
+    background-color: whitesmoke;
+}

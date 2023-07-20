@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './guards/auth.guard';
-import { AuthService } from './services/auth.service';
+import { LoginComponent } from './login-register/login.component';
+import { RegisterComponent } from './login-register/register/register.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'home', 
-    loadChildren: () => import('./components/user-list/user-list.module').then(x => x.UserListModule), 
-    canActivate: [authGuard]
-  },
-  { path: '**', redirectTo: 'home', pathMatch: 'full'},
+
+  { path: 'users', loadChildren: () => import('./users-page/users-page.module').then(x => x.UsersPageModule), canActivate: [authGuard]},
+
+  { path:'images', loadChildren: () => import('./images-page/images-page.module').then(x => x.ImagesPageModule), canActivate:[authGuard]},
+
+  { path:'converter', loadChildren: () => import('./convertidor-numero/converter-num.module').then(res => res.ConvertidorNumeroModule), canActivate:[authGuard]},
+  
   
 ];
 

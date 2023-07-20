@@ -1,0 +1,22 @@
+mat-form-field {
+    width: 100%;
+}
+
+h1 {
+  display: grid;
+  place-content: center;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.error {
+    color: #d11a2a;
+    margin-top: -25px;
+    font-size: 12px;
+}
+

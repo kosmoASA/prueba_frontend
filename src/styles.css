@@ -15,6 +15,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
+.container {
+    padding-left: 100px;
+    padding-right: 100px; 
+    padding-top: 50px; 
+    background-color: #eea849;
+    height: 100%;
+}
+
 mat-form-field {
     width: 100%;
 }
@@ -51,4 +59,8 @@ mat-form-field {
     color: #d11a2a;
     margin-top: -20px;
     font-size: 12px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
 }

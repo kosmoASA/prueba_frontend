@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgFor, AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './navbar/navbar.component';
+
 
 //* Modulos Angular
 
@@ -21,11 +23,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-
+//* Otros modulos
+import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NavbarComponent
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -46,9 +52,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    FormsModule,
-    NgFor,
-    AsyncPipe
+    NgxDropzoneModule,
+    RouterModule,
+    FormsModule
     
   ],
   exports: [
@@ -70,9 +76,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    NgxDropzoneModule,
     FormsModule,
-    NgFor,
-    AsyncPipe
+    NavbarComponent
     
   ]
 })

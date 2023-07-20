@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Eliminar Imagen</h1>
+
+  <div mat-dialog-content>
+    Deseas eliminar la imagen?
+
+    <div mat-dialog-actions>
+      <button type="button" mat-button (click)="noDelete()">No</button>
+      <button mat-raised-button color="primary" (click)="deleteImage()" cdkFocusInitial>Eliminar</button>
+    </div>
+  </div>

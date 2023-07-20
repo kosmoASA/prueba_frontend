@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <!-- <mat-spinner *ngIf="loading" diameter="50" class="spinner2"></mat-spinner> -->
+
+  <div *ngIf="!loading" class="body_div">
+    <mat-toolbar class="toolbar_usuarios">
+      <mat-toolbar-row>
+        <span>Gestión de Usuarios</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-card>
+      <mat-card-content>
+
+        <app-user-list></app-user-list>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

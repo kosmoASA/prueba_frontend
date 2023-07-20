@@ -1,0 +1,20 @@
+
+button {
+    font-size: 16px;
+}
+
+.toolbar_images {
+    background-color: #a58ee5f5;
+}
+  
+.body_div {
+  border-radius: 5px;
+  border: 2px solid #333;
+}
+
+.buttons {
+    display: grid;
+    place-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }

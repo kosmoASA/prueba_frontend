@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Router, Event, NavigationEnd } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
 
-  constructor(private _cookieService: CookieService, private jwtHelper: JwtHelperService) { 
+  constructor(private _cookieService: CookieService) { 
   
   }
   
@@ -27,16 +25,6 @@ export class AuthService {
     this._cookieService.delete('access_token');
   }
 
-  // isLogged():boolean {
-    
-  //   const token = localStorage.getItem('access_token');
-
-  //   if(this.jwtHelper.isTokenExpired(token) || !token ) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
 
   
 }
