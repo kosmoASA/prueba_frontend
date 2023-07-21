@@ -9,6 +9,9 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
 import { UsersPageComponent } from './users-page.component';
+import { AuthService } from '../services/auth.service';
+import { SettingsService } from './services/app.service';
+import { GetlistService } from './services/getlist.service';
 
 
 @NgModule({
@@ -22,6 +25,11 @@ import { UsersPageComponent } from './users-page.component';
     CommonModule,
     SharedModule,
     UsersPageRoutingModule
+  ],
+  providers: [
+    AuthService,
+    SettingsService,
+    GetlistService
   ]
 })
 export class UsersPageModule { }

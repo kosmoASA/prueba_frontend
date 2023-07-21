@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, lastValueFrom, map, startWith } from 'rxjs';
 import { Cargo, ListaDeCargos, TUser, UserLogin } from 'src/app/interfaces/user';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/login-register/services/login.service';
 
 @Component({
   selector: 'app-register',

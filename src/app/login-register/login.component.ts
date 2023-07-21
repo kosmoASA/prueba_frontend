@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
 import { UserLogin } from 'src/app/interfaces/user';
-import { LoginService } from '../services/login.service';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -58,10 +58,8 @@ export class LoginComponent {
 
     this._loginService.login(userLogin).subscribe({
       next: (resp: any) => {
-        this.loading = true;
-        this.mensajeExitoLogin(resp)
-        const navHome = timer(1000);
-        navHome.subscribe(() => this.router.navigate(['users']));
+        this.mensajeExitoLogin(resp);
+        this.redirectHome();
       },
       error: ( error: any ) => {
         this.mensajeErrorLogin(error)
@@ -87,13 +85,13 @@ export class LoginComponent {
   }
 
 
-  // redirectHome(){
-  //   this.loading = true;
+  redirectHome(){
+    this.loading = true;
 
-  //   const navHome = timer(1000);
-  //   navHome.subscribe(() => this.router.navigate(['users']));
+    const navHome = timer(1000);
+    navHome.subscribe(() => this.router.navigate(['users']));
 
-  // }
+  }
 
 
 }

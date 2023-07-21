@@ -6,15 +6,19 @@ import { RegisterComponent } from './login-register/register/register.component'
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
-
-  { path: 'users', loadChildren: () => import('./users-page/users-page.module').then(x => x.UsersPageModule), canActivate: [authGuard]},
-
-  { path:'images', loadChildren: () => import('./images-page/images-page.module').then(x => x.ImagesPageModule), canActivate:[authGuard]},
-
-  { path:'converter', loadChildren: () => import('./convertidor-numero/converter-num.module').then(res => res.ConvertidorNumeroModule), canActivate:[authGuard]},
-  
+  // { path: '', redirectTo: 'login', pathMatch: 'full' }, // redirigir al modulo login
+  { path: 'login', children:[
+    {path: '', loadChildren: () => import('./login-register/login.module').then(x => x.LoginModule)}] 
+  },
+  { path: 'users', children: [
+    {path: '', loadChildren: () => import('./users-page/users-page.module').then(x => x.UsersPageModule)}], 
+  },
+  { path: 'images', children: [
+    {path: '', loadChildren: () => import('./images-page/images-page.module').then(x => x.ImagesPageModule)}], 
+  },
+  { path: 'converter', children: [
+    {path: '', loadChildren: () => import('./convertidor-numero/converter-num.module').then(x => x.ConvertidorNumeroModule)}]
+  }
   
 ];
 

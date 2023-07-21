@@ -82,12 +82,6 @@ export class ListaImagenesComponent {
 
   }
 
-
-
-
-
-
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

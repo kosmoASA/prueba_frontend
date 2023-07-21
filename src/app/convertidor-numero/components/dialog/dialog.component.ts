@@ -17,13 +17,13 @@ export class DialogComponent implements AfterViewInit{
   @ViewChild('optionInput') optionInput!: ElementRef;
 
   optionsToSelectMiles: Converter[] = [
-    {value: 'punto', viewValue: 'Punto ( . )'},
-    {value: 'coma', viewValue: 'Coma ( , )'},
+    {value: '.', viewValue: 'Punto ( . )'},
+    {value: ',', viewValue: 'Coma ( , )'},
   ];
 
   optionsToSelectDecimal: Converter[] = [
-    {value: 'punto', viewValue: 'Punto ( . )'},
-    {value: 'coma', viewValue: 'Coma ( , )'},
+    {value: '.', viewValue: 'Punto ( . )'},
+    {value: ',', viewValue: 'Coma ( , )'},
   ];
 
   constructor ( private fb: FormBuilder,
@@ -57,30 +57,18 @@ export class DialogComponent implements AfterViewInit{
       const option = this.optionInput.nativeElement;
       this.renderer.setStyle(option, 'display', "none")
     } 
-
   }
-
   
 
   modifyNumber(event: any) {
-    let datoMiles = this.optionSelectedMiles.value
-    let datoDecimal = this.optionSelectedDecimal.value;
+    let datoMiles: any = this.optionSelectedMiles.value;
+    let datoDecimal: any = this.optionSelectedDecimal.value;
     let number = this.form.get('number')?.value;
 
-    console.log( datoMiles )
+    const result = this.valueModify(number, datoMiles, datoDecimal)
+  
 
-    if( datoMiles === 'coma' ) {
-      number = this.agregarSeparadorComa(number);
-      
-      console.log( number )
-    }
-
-    if( datoMiles === 'punto'  ) {
-      number = this.agregarSeparadorPunto(number)
-      console.log( number )
-    }
-
-    this.form.get('number')?.patchValue(number);
+    this.form.get('number')?.patchValue(result);
 
   }
 
@@ -91,21 +79,40 @@ export class DialogComponent implements AfterViewInit{
     this.dialogRef.close(num)
   }
 
-  agregarSeparadorComa(num: number) {
-    let newNumber = num.toString().split('.');
-
-    newNumber[0] = newNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-    return newNumber.join('.')
-  }
-
-  agregarSeparadorPunto(num: number) {
-    let newNumber = num.toString().split(',');
+  valueModify (value: string, millarOption: string, decimalOption: string) {
+    const numValue = Number(value);
+    const addDecimales = numValue.toFixed(2); // Redondear los decimales
     
-    newNumber[0] = newNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const separacion = addDecimales.split('.'); // Separar la parte decimal de la otra
+    let parteEnteros = separacion[0];
+    let parteDecimal = separacion[1];
 
-    return newNumber.join(',')
+    
+    parteEnteros = parteEnteros.replace(/\B(?=(\d{3})+(?!\d))/g, `${ millarOption }`); // Agregar el separador de miles cada tres numeros
+
+    const result = `${parteEnteros}${decimalOption}${parteDecimal}`;
+
+    return result;
   }
+
+
+  // agregarSeparadorComa(num: number) {
+  //   let newNumber = num.toString().split('.');
+
+  //   newNumber[0] = newNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  //   return newNumber.join('.')
+  // }
+
+  // agregarSeparadorPunto(num: number) {
+  //   let newNumber = num.toString().split(',');
+    
+  //   newNumber[0] = newNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  //   return newNumber.join(',')
+  // }
+
+
 
   
 }

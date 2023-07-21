@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConverterComponent } from './converter.component';
 
 const routes: Routes = [
-  {path: '', component: ConverterComponent}
+  {path: '', component: ConverterComponent},
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

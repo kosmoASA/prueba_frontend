@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./users-page.component.css']
 })
 export class UsersPageComponent {
-  //* Variables
-  loading = true;
+ 
 }

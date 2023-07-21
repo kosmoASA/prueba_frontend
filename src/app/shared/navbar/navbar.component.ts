@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/login-register/services/login.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
