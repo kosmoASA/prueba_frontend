@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+
+
+<div class="container">
+    <div class="body_div">
+        <mat-toolbar class="toolbar_tables">
+            <mat-toolbar-row>
+                <span>Lista de Empresas</span>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-card>
+            <div class="buttons">
+                <button mat-fab extended color="accent" (click)="onAgregarEmpresa(null, 'new')">
+                    <mat-icon>add_business</mat-icon>
+                    Añadir Empresa
+                </button>
+            </div>
+            <mat-card-content>
+                
+                <app-tabla-empresas (idEmpresa)="getIdEmpresa($event)"></app-tabla-empresas>
+                
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <br>
+
+    <div class="body_div" *ngIf="idEmpresa">
+        
+        <mat-toolbar class="toolbar_tables">
+            <mat-toolbar-row>
+                <span>Lista de Usuarios</span>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-card>
+            <div class="buttons">
+                <button mat-fab extended color="accent" (click)="onAgregarUsuario(null, 'new')">
+                    <mat-icon>person_add</mat-icon>
+                    Añadir Usuario
+                </button>
+            </div>
+            <mat-card-content>
+                
+                <app-tabla-usuarios [idEmpresa]="idEmpresa"></app-tabla-usuarios>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <br>
+    <br>
+
+</div>
+

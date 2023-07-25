@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Agregar Usuario</h1>
+
+<form [formGroup]="form" (ngSubmit)="agregarUsuario()" >
+
+    <mat-dialog-content>
+        <div class="row">
+            <div class="column">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Ingrese Nombre del Usuario" autocomplete="off" formControlName="NAME_USER">
+                </mat-form-field>
+
+                <div class="error">
+                    <span *ngIf="form.get('NAME_USER')?.hasError('required') && form.get('NAME_USER')?.touched">
+                        El nombre es un campo <strong>requerido</strong>.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="column">
+                <mat-form-field appearance="fill">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput type="text" placeholder="Ingrese el Apellido del Usuario" autocomplete="off" formControlName="SURNAME_USER">
+                </mat-form-field>
+                <div class="error">
+                    <span *ngIf="form.get('SURNAME_USER')?.hasError('required') && form.get('SURNAME_USER')?.touched">
+                        El Apellido es un campo <strong>requerido</strong>.
+                    </span>
+                </div>
+            </div>
+        </div>
+    
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button type="button"  mat-button mat-dialog-close mat-button color="accent">Cancelar</button>
+        <button type="submit" mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial
+        >Aceptar</button>
+    </mat-dialog-actions>
+
+</form>

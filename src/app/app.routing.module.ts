@@ -18,7 +18,10 @@ const routes: Routes = [
   },
   { path: 'converter', children: [
     {path: '', loadChildren: () => import('./convertidor-numero/converter-num.module').then(x => x.ConvertidorNumeroModule)}]
-  }
+  },
+  { path: 'empresas', children: [
+    {path: '', loadChildren: () => import('./empresas/empresas.module').then(x => x.EmpresasPrincipalModule)}]
+  },
   
 ];
 

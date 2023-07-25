@@ -13,6 +13,7 @@ import { NumberChangePipe } from './pipes/number-change.pipe';
     ConverterComponent,
     DialogComponent,
     NumberChangePipe
+    
   ],
   imports: [
     CommonModule,

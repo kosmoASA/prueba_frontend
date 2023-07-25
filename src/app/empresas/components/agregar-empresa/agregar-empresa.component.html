@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Agregar Empresa</h1>
+
+<form [formGroup]="form" (ngSubmit)="agregarEmpresa()" >
+
+    <mat-dialog-content>
+        <div class="row">
+            <div class="column">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombre de la Empresa</mat-label>
+                    <input matInput placeholder="Ingrese Nombre de la empresa" autocomplete="off" formControlName="NAME_EMPRESA">
+                </mat-form-field>
+
+                <div class="error">
+                    <span *ngIf="form.get('NAME_EMPRESA')?.hasError('required') && form.get('NAME_EMPRESA')?.touched">
+                        El nombre de la empresa es un campo <strong>requerido</strong>.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+
+            <div class="column">
+                <mat-form-field appearance="fill">
+                    <mat-label>Teléfono Empresa</mat-label>
+                    <input matInput type="tel" placeholder="317-503-1786" autocomplete="off" formControlName="PHONE_EMPRESA">
+                </mat-form-field>
+
+                <div class="error">
+                    <span *ngIf="form.get('PHONE_EMPRESA')?.hasError('required') && form.get('PHONE_EMPRESA')?.touched">
+                        El teléfono es un campo <strong>requerido</strong>.
+                    </span>
+                    <span *ngIf="form.get('PHONE_EMPRESA')?.hasError('minlength') && form.get('PHONE_EMPRESA')?.touched">
+                        El teléfono debe tener <strong>mínimo</strong> 10 caracteres.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button type="button" (click)="cancelarAgregar()" mat-button mat-dialog-close mat-button color="accent">Cancelar</button>
+        <button type="submit" mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial
+        >Aceptar</button>
+    </mat-dialog-actions>
+
+</form>
